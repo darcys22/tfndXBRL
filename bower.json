@@ -1,0 +1,17 @@
+{
+  "name": "TFND XBRL Creator",
+  "version": "0.0.1",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "authors": [
+    "Sean Darcy <Darcys22@gmail.com>"
+  ],
+  "description": "App to create the XBRL for a TFND",
+  "main": "index.html",
+  "keywords": [
+  ],
+  "license": "GPLv3"
+}
