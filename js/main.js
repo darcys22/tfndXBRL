@@ -114,17 +114,41 @@ function toTitleCase(str)
 function validateXBRL() {
   var xmlns = {
       xbrli : "http://www.xbrl.org/2003/instance",
-      common : "http://services.xyz/xmlschema/common",
-      xmlns: "http://www.w3.org/2000/xmlns/",
-      ns2 : "http://services.xyz/xmlschema/subscription",
-      ns3 : "urn:ns3"
+      tfnd : "http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report",
+      pyde0205 : "http://sbr.gov.au/icls/py/pyde.02.05.data",
+      pyde0200 : "http://sbr.gov.au/icls/py/pyde.02.00.data",
+      pyid0200 : "http://sbr.gov.au/icls/py/pyid/pyid.02.00.data",
+      pylk0200:"http://sbr.gov.au/icls/py/pylk/pylk.02.00.data",
+      xmlns: "http://www.w3.org/2000/xmlns/"
   };
   var xmlDoc = document.implementation.createDocument('','',null);
   var xbrl = xmlDoc.createElementNS(xmlns.xbrli,"xbrli:xbrl");
   xmlDoc.appendChild(xbrl);
-  //node.setAttributeNS(xmlns.xmlns, 'xmlns:ns3', xmlns.ns3);
-  var payee = xmlDoc.createElement("tfnd.0003.lodge.req.02.00:Payee");
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0205', xmlns.pyde0205);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyid0200', xmlns.pyid0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfnd', xmlns.tfnd);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0200', xmlns.pyde0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pylk0200', xmlns.pylk0200);
+
+  //------Payee
+  var payee = xmlDoc.createElement("tfnd:Payee");
   xbrl.appendChild(payee);
+  var payeetfn = xmlDoc.createElement("pyid0200:Identifiers.TaxFileNumber.Identifier")
+  payeetfn.setAttribute("contextRef", "RP"); 
+  payeetfn.textContent = window.employees[0].TFN;
+  payee.appendChild(payeetfn); 
+  var payeedob = xmlDoc.createElement("pyde0200:PersonDemographicDetails.Birth.Date")
+  payeedob.setAttribute("contextRef", "RP"); 
+  payeedob.textContent = window.employees[0].DOB;
+  payee.appendChild(payeedob); 
+  var payeeresidency = xmlDoc.createElement("pyde0205:Residency.TaxPurposesPersonStatus.Indicator")
+  payeeresidency.setAttribute("contextRef", "RP"); 
+  payeeresidency.textContent = "true";
+  payee.appendChild(payeeresidency); 
+  var payeepaymentbasis = xmlDoc.createElement("pylk0200:PaymentArrangement.PaymentBasis.Code")
+  payeepaymentbasis.setAttribute("contextRef", "RP"); 
+  payeepaymentbasis.textContent = "F";
+  payee.appendChild(payeepaymentbasis); 
 
   var serializer = new XMLSerializer();
   var xmlString = serializer.serializeToString(xmlDoc);
