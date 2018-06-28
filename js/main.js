@@ -114,21 +114,37 @@ function toTitleCase(str)
 function validateXBRL() {
   var xmlns = {
       xbrli : "http://www.xbrl.org/2003/instance",
+      address10202:"http://sbr.gov.au/comnmdle/comnmdle.addressdetails1.02.02.module",
       tfnd : "http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report",
       pyde0205 : "http://sbr.gov.au/icls/py/pyde.02.05.data",
       pyde0200 : "http://sbr.gov.au/icls/py/pyde.02.00.data",
+      declaration10201:"http://sbr.gov.au/comnmdle/comnmdle.declaration1.02.01.module",
       pyid0200 : "http://sbr.gov.au/icls/py/pyid/pyid.02.00.data",
+      edte0200:"http://sbr.gov.au/icls/ed/edte/edte.02.00.data",
+      edte0201:"http://sbr.gov.au/icls/ed/edte/edte.02.01.data",
+      prsnstrcnm20200:"http://sbr.gov.au/comnmdle/comnmdle.personstructuredname2.02.00.module",
+      prsnunstrcnm10201:"http://sbr.gov.au/comnmdle/comnmdle.personunstructuredname1.02.01.module",
+      edte0202:"http://sbr.gov.au/icls/ed/edte/edte.02.02.data",
+      edte0203:"http://sbr.gov.au/icls/ed/edte/edte.02.03.data",
+      gfati0200:"http://sbr.gov.au/icls/gfa/gfati/gfati.02.00.data",
       pylk0200:"http://sbr.gov.au/icls/py/pylk/pylk.02.00.data",
       xmlns: "http://www.w3.org/2000/xmlns/"
   };
   var xmlDoc = document.implementation.createDocument('','',null);
   var xbrl = xmlDoc.createElementNS(xmlns.xbrli,"xbrli:xbrl");
   xmlDoc.appendChild(xbrl);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:address10202', xmlns.address10202);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0205', xmlns.pyde0205);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:declaration10201', xmlns.declaration10201);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyid0200', xmlns.pyid0200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfnd', xmlns.tfnd);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0200', xmlns.pyde0200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pylk0200', xmlns.pylk0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:gfati0200', xmlns.gfati0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0200', xmlns.edte0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0201', xmlns.edte0201);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0202', xmlns.edte0202);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0203', xmlns.edte0203);
 
   //------Payee
   var payee = xmlDoc.createElement("tfnd:Payee");
@@ -149,6 +165,119 @@ function validateXBRL() {
   payeepaymentbasis.setAttribute("contextRef", "RP"); 
   payeepaymentbasis.textContent = "F";
   payee.appendChild(payeepaymentbasis); 
+  var taxfreethreshold = xmlDoc.createElement("gfati0200:TaxOffsetClaim.TaxFreeThreshold.Indicator");
+  taxfreethreshold.setAttribute("contextRef", "RP"); 
+  taxfreethreshold.textContent = "true";
+  payee.appendChild(taxfreethreshold); 
+  var senioroffset = xmlDoc.createElement("gfati0200:TaxOffsetClaim.SeniorAustraliansTaxOffset.Indicator");
+  senioroffset.setAttribute("contextRef", "RP"); 
+  senioroffset.textContent = "false";
+  payee.appendChild(senioroffset); 
+  var zoneindicator = xmlDoc.createElement("gfati0200:TaxOffsetClaim.Zone.Indicator");
+  zoneindicator.setAttribute("contextRef", "RP"); 
+  zoneindicator.textContent = "true";
+  payee.appendChild(zoneindicator); 
+  var overseasforces = xmlDoc.createElement("gfati0200:TaxOffsetClaim.OverseasForces.Indicator");
+  overseasforces.setAttribute("contextRef", "RP"); 
+  overseasforces.textContent = "true";
+  payee.appendChild(overseasforces); 
+  var dependantspouse = xmlDoc.createElement("gfati0200:TaxOffsetClaim.DependantSpouse.Indicator");
+  dependantspouse.setAttribute("contextRef", "RP"); 
+  dependantspouse.textContent = "true";
+  payee.appendChild(dependantspouse); 
+  var invalidrelative = xmlDoc.createElement("gfati0200:TaxOffsetClaim.ParentSpouseOrInvalidRelative.Indicator");
+  invalidrelative.setAttribute("contextRef", "RP"); 
+  invalidrelative.textContent = "true";
+  payee.appendChild(invalidrelative); 
+  var help = xmlDoc.createElement("edte0200:StudentLoan.HigherEducationLoanProgramme.Indicator");
+  help.setAttribute("contextRef", "RP"); 
+  help.textContent = "true";
+  var tradesupport = xmlDoc.createElement("edte0201:StudentLoan.TradeSupport.Indicator");
+  tradesupport.setAttribute("contextRef", "RP"); 
+  tradesupport.textContent = "true";
+  payee.appendChild(tradesupport);
+  var startuploan= xmlDoc.createElement("edte0202:StudentLoan.StudentStartupLoan.Indicator");
+  startuploan.setAttribute("contextRef", "RP"); 
+  startuploan.textContent = "true";
+  payee.appendChild(startuploan); 
+  var abstudy= xmlDoc.createElement("edte0203:StudentLoan.StudentStartupLoanAbstudy.Indicator");
+  abstudy.setAttribute("contextRef", "RP"); 
+  abstudy.textContent = "true";
+  payee.appendChild(abstudy); 
+  var SFSS= xmlDoc.createElement("edte0200:StudentLoan.StudentFinancialSupplementScheme.Indicator");
+  SFSS.setAttribute("contextRef", "RP"); 
+  SFSS.textContent = "false";
+  payee.appendChild(SFSS); 
+  var persondetails = xmlDoc.createElement("prsnstrcnm20200:PersonNameDetails");
+  payee.appendChild(persondetails);
+  var nametype= xmlDoc.createElement("pyde0200:PersonNameDetails.PersonNameType.Code");
+  nametype.setAttribute("contextRef", "RP"); 
+  nametype.textContent = "LGL";
+  persondetails.appendChild(nametype); 
+  var currencycode= xmlDoc.createElement("pyde0200:PersonNameDetails.Currency.Code");
+  currencycode.setAttribute("contextRef", "RP"); 
+  currencycode.textContent = "C";
+  persondetails.appendChild(currencycode); 
+  var familyname= xmlDoc.createElement("pyde0200:PersonNameDetails.FamilyName.Text");
+  familyname.setAttribute("contextRef", "RP"); 
+  familyname.textContent = "Higgins";
+  persondetails.appendChild(familyname); 
+  var givenname= xmlDoc.createElement("pyde0200:PersonNameDetails.GivenName.Text");
+  givenname.setAttribute("contextRef", "RP"); 
+  givenname.textContent = "Kate";
+  persondetails.appendChild(givenname); 
+  var othername= xmlDoc.createElement("pyde0200:PersonNameDetails.OtherGivenName.Text");
+  othername.setAttribute("contextRef", "RP"); 
+  othername.textContent = "Moss";
+  persondetails.appendChild(othername); 
+  var addressdetails = xmlDoc.createElement("address10202:AddressDetails");
+  payee.appendChild(addressdetails);
+  var osaddress= xmlDoc.createElement("pyde0200:AddressDetails.OverseasAddress.Indicator");
+  osaddress.setAttribute("contextRef", "RP"); 
+  osaddress.textContent = "false";
+  addressdetails.appendChild(osaddress); 
+  var addressusage= xmlDoc.createElement("pyde0201:AddressDetails.Usage.Code");
+  addressusage.setAttribute("contextRef", "RP"); 
+  addressusage.textContent = "RES";
+  addressdetails.appendChild(addressusage); 
+  var addressline1= xmlDoc.createElement("pyde0200:AddressDetails.Line1.Text");
+  addressline1.setAttribute("contextRef", "RP"); 
+  addressline1.textContent = "376 Albert Crescent";
+  addressdetails.appendChild(addressline1); 
+  var locality= xmlDoc.createElement("pyde0200:AddressDetails.LocalityName.Text");
+  locality.setAttribute("contextRef", "RP"); 
+  locality.textContent = "North Sydney";
+  addressdetails.appendChild(locality); 
+  var postcode= xmlDoc.createElement("pyde0200:AddressDetails.Postcode.Text");
+  postcode.setAttribute("contextRef", "RP"); 
+  postcode.textContent = "2100";
+  addressdetails.appendChild(postcode); 
+  var state= xmlDoc.createElement("pyde0200:AddressDetails.StateOrTerritory.Code");
+  state.setAttribute("contextRef", "RP"); 
+  state.textContent = "NSW";
+  addressdetails.appendChild(state); 
+  var country= xmlDoc.createElement("pyde0208:AddressDetails.CountryName.Text");
+  country.setAttribute("contextRef", "RP"); 
+  country.textContent = "AUSTRALIA";
+  addressdetails.appendChild(country); 
+  var declaration = xmlDoc.createElement("declaration10201:Declaration");
+  payee.appendChild(declaration);
+  var statementtype= xmlDoc.createElement("pyin0203:Declaration.StatementType.Code");
+  statementtype.setAttribute("contextRef", "RP"); 
+  statementtype.textContent = "HardCopy";
+  declaration.appendChild(statementtype); 
+  var statementaccepted= xmlDoc.createElement("pyin0203:Declaration.StatementAccepted.Indicator");
+  statementaccepted.setAttribute("contextRef", "RP"); 
+  statementaccepted.textContent = "true";
+  declaration.appendChild(statementaccepted); 
+  var declarationdate= xmlDoc.createElement("pyin0200:Declaration.Signature.Date");
+  declarationdate.setAttribute("contextRef", "RP"); 
+  declarationdate.textContent = "2015-08-15";
+  declaration.appendChild(declarationdate); 
+  var signatoryid= xmlDoc.createElement("pyin0200:Declaration.SignatoryIdentifier.Text");
+  signatoryid.setAttribute("contextRef", "RP"); 
+  signatoryid.textContent = "katehiggins@example.com";
+  declaration.appendChild(signatoryid); 
 
   var serializer = new XMLSerializer();
   var xmlString = serializer.serializeToString(xmlDoc);
