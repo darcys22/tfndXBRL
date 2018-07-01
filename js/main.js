@@ -140,23 +140,23 @@ function buildXBRL() {
   xmlDoc.appendChild(xbrl);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xbrldi', xmlns.xbrldi);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xbrldt', xmlns.xbrldt);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:address10202', xmlns.address10202);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:declaration10201', xmlns.declaration10201);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0200', xmlns.edte0200);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0201', xmlns.edte0201);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0202', xmlns.edte0202);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0203', xmlns.edte0203);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:fax10200', xmlns.fax10200);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:gfati0200', xmlns.gfati0200);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:orgname10200', xmlns.orgname10200);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:phone10200', xmlns.phone10200);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:prsnstrcnm20200', xmlns.prsnstrcnm20200);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:prsnunstrcnm10201', xmlns.prsnunstrcnm10201);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfnd', xmlns.tfnd);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0200', xmlns.pyde0200);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0205', xmlns.pyde0205);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyid0200', xmlns.pyid0200);
-  //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pylk0200', xmlns.pylk0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:address10202', xmlns.address10202);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:declaration10201', xmlns.declaration10201);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0200', xmlns.edte0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0201', xmlns.edte0201);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0202', xmlns.edte0202);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0203', xmlns.edte0203);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:fax10200', xmlns.fax10200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:gfati0200', xmlns.gfati0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:orgname10200', xmlns.orgname10200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:phone10200', xmlns.phone10200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:prsnstrcnm20200', xmlns.prsnstrcnm20200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:prsnunstrcnm10201', xmlns.prsnunstrcnm10201);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfnd', xmlns.tfnd);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0200', xmlns.pyde0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0205', xmlns.pyde0205);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyid0200', xmlns.pyid0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pylk0200', xmlns.pylk0200);
 
 
   // Schema
@@ -171,7 +171,7 @@ function buildXBRL() {
 
   //------Payee
   var payee = xmlDoc.createElement("tfnd:Payee");
-  //xbrl.appendChild(payee);
+  xbrl.appendChild(payee);
   var payeetfn = xmlDoc.createElement("pyid0200:Identifiers.TaxFileNumber.Identifier")
   payeetfn.setAttribute("contextRef", "RP"); 
   payeetfn.textContent = window.employees[0].TFN;
@@ -546,12 +546,11 @@ function buildXBRL() {
   var serializer = new XMLSerializer();
   var xmlString = serializer.serializeToString(xmlDoc);
   console.log(vkbeautify.xml(xmlString));
+  return vkbeautify.xml(xmlString);
 }
 
 function ContextMaker(id,abn) {
   var xmlDoc = document.implementation.createDocument('','',null);
-  //var id = "RP";
-  //var abn = "49425379391";
   var context= xmlDoc.createElement("xbrli:context");
   context.setAttribute("id", id); 
   var entity= xmlDoc.createElement("xbrli:entity");
@@ -583,7 +582,7 @@ function ContextMaker(id,abn) {
 }
 
 function validateXBRL() {
-  var xbrl = buildXBRL();
+  window.xbrl = buildXBRL();
   window.valid = true;
   numb = ['ABN','contactNumber']
   for (var key in window.payer) {
@@ -1099,19 +1098,18 @@ function validateXBRL() {
 
 }
 function openfile() {
-  // TODO: MAKE HERE BUTTON DOWNLOAD FILE FOR XBRL NEXT
-  var lodgebutton = document.getElementById('createbutton');
-  var filebutton = document.getElementById('pdfbutton');
+  var lodgebutton = document.getElementById('lodgetfnd');
+  var filebutton = document.getElementById('xbrlfile');
   if (window.valid) {
-    createbutton.disabled = false
-    createbutton.onclick = function() {createXBRL()};
-    pdfbutton.disabled = false
-    pdfbutton.onclick = function() {makePDF()};
+    lodgebutton.disabled = false
+    lodgebutton.onclick = function() {};
+    filebutton.disabled = false
+    filebutton.onclick = function() {createXBRL()};
   } else {
-    createbutton.disabled = true
-    createbutton.onclick = function(){};
-    pdfbutton.disabled = true
-    pdfbutton.onclick = function(){};
+    lodgebutton.disabled = true
+    lodgebutton.onclick = function(){};
+    filebutton.disabled = true
+    filebutton.onclick = function(){};
   }
 }
 
@@ -1129,14 +1127,6 @@ function download(filename, text) {
 }
 
 function createXBRL() {
-  window.xbrl = "";
-  addSupplierDataRecords();
-  addPayerIdentityDataRecord();
-  addSoftwareDataRecord();
-  for (var i = 0; i < window.employees.length; i++) {
-    addPaymentSummaryDataRecord(i);
-  }
-  addFileTotalRecord();
   download("TFND", window.xbrl);
 }
 
