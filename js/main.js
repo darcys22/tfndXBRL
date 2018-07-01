@@ -438,7 +438,7 @@ function validateXBRL() {
   var suppliersignatoryid= xmlDoc.createElement("pyin0200:Declaration.SignatoryIdentifier.Text");
   suppliersignatoryid.setAttribute("contextRef", "INT"); 
   suppliersignatoryid.textContent = "Sydney Tax";
-  declaration.appendChild(suppliersignatoryid); 
+  supplierdeclaration.appendChild(suppliersignatoryid); 
 
   //Payer
   var payeraddress = xmlDoc.createElement("address10202:AddressDetails");
@@ -479,9 +479,76 @@ function validateXBRL() {
   payercountry.setAttribute("contextRef", "RP"); 
   payercountry.textContent = "Australia";
   payeraddress.appendChild(payercountry); 
+  var payercontactname= xmlDoc.createElement("prsnunstrcnm10201:PersonUnstructuredName");
+  xbrl.appendChild(payercontactname);
+  var payercontactcode= xmlDoc.createElement("pyde0200:PersonUnstructuredName.Usage.Code");
+  payercontactcode.setAttribute("contextRef", "RP"); 
+  payercontactcode.textContent = "Contact";
+  payercontactname.appendChild(payercontactcode); 
+  var payercontactnametext= xmlDoc.createElement("pyde0200:PersonUnstructuredName.FullName.Text");
+  payercontactnametext.setAttribute("contextRef", "RP"); 
+  payercontactnametext.textContent = "Clive Owen Peter";
+  payercontactname.appendChild(payercontactnametext); 
+  var payerorganisationdetails= xmlDoc.createElement("orgname10200:OrganisationNameDetails");
+  xbrl.appendChild(payerorganisationdetails);
+  var payernamecode= xmlDoc.createElement("pyde0200:OrganisationNameDetails.OrganisationalNameType.Code");
+  payernamecode.setAttribute("contextRef", "RP"); 
+  payernamecode.textContent = "MN";
+  payerorganisationdetails.appendChild(payernamecode); 
+  var payernametext= xmlDoc.createElement("pyde0200:OrganisationNameDetails.OrganisationalName.Code");
+  payernametext.setAttribute("contextRef", "RP"); 
+  payernametext.textContent = "Labrodo Pvt Ltd";
+  payerorganisationdetails.appendChild(payernametext); 
+  var payertradingorganisationdetails= xmlDoc.createElement("orgname10200:OrganisationNameDetails");
+  xbrl.appendChild(payertradingorganisationdetails);
+  var payertradingnamecode= xmlDoc.createElement("pyde0200:OrganisationNameDetails.OrganisationalNameType.Code");
+  payertradingnamecode.setAttribute("contextRef", "RP"); 
+  payertradingnamecode.textContent = "MTN";
+  payertradingorganisationdetails.appendChild(payertradingnamecode); 
+  var payertradingnametext= xmlDoc.createElement("pyde0200:OrganisationNameDetails.OrganisationalName.Code");
+  payertradingnametext.setAttribute("contextRef", "RP"); 
+  payertradingnametext.textContent = "Pet Friends Company";
+  payertradingorganisationdetails.appendChild(payertradingnametext); 
+  var payerdeclaration = xmlDoc.createElement("declaration10201:Declaration");
+  xbrl.appendChild(payerdeclaration);
+  var payerstatementtype= xmlDoc.createElement("pyin0203:Declaration.StatementType.Code");
+  payerstatementtype.setAttribute("contextRef", "INT"); 
+  payerstatementtype.textContent = "TrueAndCorrect";
+  payerdeclaration.appendChild(payerstatementtype); 
+  var payerstatementaccepted= xmlDoc.createElement("pyin0203:Declaration.StatementAccepted.Indicator");
+  payerstatementaccepted.setAttribute("contextRef", "INT"); 
+  payerstatementaccepted.textContent = "true";
+  payerdeclaration.appendChild(payerstatementaccepted); 
+  var payerdeclarationdate= xmlDoc.createElement("pyin0200:Declaration.Signature.Date");
+  payerdeclarationdate.setAttribute("contextRef", "INT"); 
+  payerdeclarationdate.textContent = "2017-07-17";
+  payerdeclaration.appendChild(payerdeclarationdate); 
+  var payersignatoryid= xmlDoc.createElement("pyin0200:Declaration.SignatoryIdentifier.Text");
+  payersignatoryid.setAttribute("contextRef", "INT"); 
+  payersignatoryid.textContent = "info@petfriends.com.au";
+  payerdeclaration.appendChild(payersignatoryid); 
+
+
+
   var serializer = new XMLSerializer();
   var xmlString = serializer.serializeToString(xmlDoc);
   console.log(vkbeautify.xml(xmlString));
+}
+
+function ContextMaker(id,abn) {
+  var xmlDoc = document.implementation.createDocument('','',null);
+  var id = "RP";
+  var abn = "49425379391";
+  var context= xmlDoc.createElement("xbrli:context");
+  context.setAttribute("id", id); 
+  var entity= xmlDoc.createElement("xbrli:entity");
+  context.appendChild(entity); 
+  var identifier= xmlDoc.createElement("xbrli:identifier");
+  payersignatoryid.setAttribute("scheme", "http://www.abr.gov.au/abn"); 
+  payersignatoryid.textContent = abn; 
+  context.appendChild(identifier); 
+
+  return context;
 }
 
 function validateXBRLOld() {
