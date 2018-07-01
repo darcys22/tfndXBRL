@@ -111,9 +111,11 @@ function toTitleCase(str)
 {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
-function validateXBRL() {
+function buildXBRL() {
   var xmlns = {
       xbrli : "http://www.xbrl.org/2003/instance",
+      xbrldi:"http://xbrl.org/2006/xbrldi",
+      xbrldt:"http://xbrl.org/2005/xbrldt",
       address10202:"http://sbr.gov.au/comnmdle/comnmdle.addressdetails1.02.02.module",
       tfnd : "http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report",
       pyde0205 : "http://sbr.gov.au/icls/py/pyde.02.05.data",
@@ -136,6 +138,8 @@ function validateXBRL() {
   var xmlDoc = document.implementation.createDocument('','',null);
   var xbrl = xmlDoc.createElementNS(xmlns.xbrli,"xbrli:xbrl");
   xmlDoc.appendChild(xbrl);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xbrldi', xmlns.xbrldi);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xbrldt', xmlns.xbrldt);
   //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:address10202', xmlns.address10202);
   //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:declaration10201', xmlns.declaration10201);
   //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0200', xmlns.edte0200);
@@ -153,6 +157,17 @@ function validateXBRL() {
   //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0205', xmlns.pyde0205);
   //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyid0200', xmlns.pyid0200);
   //xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pylk0200', xmlns.pylk0200);
+
+
+  // Schema
+  var schemaRef = xmlDoc.createElement("link:schemaRef");
+  schemaRef.setAttribute("xlink:href", "http://sbr.gov.au/taxonomy/sbr_au_reports/ato/tfnd/tfnd_0003/tfnd.0003.lodge.request.02.00.report.xsd"); 
+  schemaRef.setAttribute("xlink:type", "simple"); 
+  xbrl.appendChild(schemaRef);
+
+  // Contexts
+  xbrl.appendChild(ContextMaker("RP", "49425379391"));
+  xbrl.appendChild(ContextMaker("INT", "18083973826"));
 
   //------Payee
   var payee = xmlDoc.createElement("tfnd:Payee");
@@ -528,8 +543,6 @@ function validateXBRL() {
   payersignatoryid.textContent = "info@petfriends.com.au";
   payerdeclaration.appendChild(payersignatoryid); 
 
-
-
   var serializer = new XMLSerializer();
   var xmlString = serializer.serializeToString(xmlDoc);
   console.log(vkbeautify.xml(xmlString));
@@ -537,21 +550,40 @@ function validateXBRL() {
 
 function ContextMaker(id,abn) {
   var xmlDoc = document.implementation.createDocument('','',null);
-  var id = "RP";
-  var abn = "49425379391";
+  //var id = "RP";
+  //var abn = "49425379391";
   var context= xmlDoc.createElement("xbrli:context");
   context.setAttribute("id", id); 
   var entity= xmlDoc.createElement("xbrli:entity");
   context.appendChild(entity); 
   var identifier= xmlDoc.createElement("xbrli:identifier");
-  payersignatoryid.setAttribute("scheme", "http://www.abr.gov.au/abn"); 
-  payersignatoryid.textContent = abn; 
-  context.appendChild(identifier); 
+  identifier.setAttribute("scheme", "http://www.abr.gov.au/abn"); 
+  identifier.textContent = abn; 
+  entity.appendChild(identifier); 
+  var segment= xmlDoc.createElement("xbrli:segment");
+  entity.appendChild(segment); 
+  var explicitMember= xmlDoc.createElement("xbrldi:explicitMember");
+  explicitMember.setAttribute("dimension", "RprtPyType.02.12:ReportPartyTypeDimension"); 
+  if (id=="RP") {
+    explicitMember.textContent = "RprtPyType.02.12:ReportingParty"; 
+  } else if (id=="INT") {
+    explicitMember.textContent = "RprtPyType.02.12:Intermediary"; 
+  }
+  segment.appendChild(explicitMember); 
+  var period= xmlDoc.createElement("xbrli:period");
+  context.appendChild(period); 
+  var startdate= xmlDoc.createElement("xbrli:startDate");
+  startdate.textContent = "2015-07-01"; 
+  period.appendChild(startdate); 
+  var enddate= xmlDoc.createElement("xbrli:endDate");
+  enddate.textContent = "2016-06-30"; 
+  period.appendChild(enddate); 
 
   return context;
 }
 
-function validateXBRLOld() {
+function validateXBRL() {
+  var xbrl = buildXBRL();
   window.valid = true;
   numb = ['ABN','contactNumber']
   for (var key in window.payer) {
@@ -589,12 +621,6 @@ function validateXBRLOld() {
 		return "ABN Length Invalid";
 	};
 
-  validate.validators.taxamount = function(payments, options, key, attributes) {
-    if (window.employees[options].taxWithheld > (window.employees[options].grossPayments + window.employees[options].allowances + window.employees[options].lumpSumA + (window.employees[options].lumpSumB * 0.05) + window.employees[options].lumpSumE)) {
-      return "The Total tax withheld field is greater than the sum of Gross payments field + Total allowances field + Lump sum payment A field + 5% of the Lump sum payment B field + Lump sum payment E field + Community Development Employment Projects payments field.";
-    }
-    return null;
-  };
 
 	validate.validators.tfn = function($tfn, options, key, attributes) {
     var weights = [ 1, 4, 3, 7, 5, 8, 6, 9, 10];
@@ -638,143 +664,144 @@ function validateXBRLOld() {
     }
 	};
 
-  var payerConstraints = {
-    ABN: {
-      presence: true,
-			abn: true,
-      length: {
-        maximum: 11
-      },
-      format: {
-        pattern: "[0-9]+",
-        message: "can only contain 0-9"
-      }
-    },
-    ABNBranch: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 3
-      },
-      format: {
-        pattern: "[0-9]+",
-        message: "can only contain 0-9"
-      }
-    },
-    financialYear: {
-      presence: true,
-      length: {
-        minimum: 4,
-        maximum: 4
-      },
-      format: {
-        pattern: "[0-9]+",
-        message: "can only contain 0-9"
-      }
-    },
-    endDate: {
-      presence: true,
-      customdate: true
-    },
-    name: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 200
-      },
-      format: {
-        pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'&-]+",
-        flags: "i",
-        message: "can only contain a-z and 0-9"
-      }
-    },
-    contactName: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 38
-      },
-      format: {
-        pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'&-]+",
-        flags: "i",
-        message: "can only contain a-z and 0-9"
-      }
-    },
-    contactNumber: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 15
-      },
-      format: {
-        pattern: "[0-9]+",
-        message: "can only contain 0-9"
-      }
-    },
-    tradingname: {
-      length: {
-        minimum: 3,
-        maximum: 200
-      },
-      format: {
-        pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'&-]+",
-        flags: "i",
-        message: "can only contain a-z and 0-9"
-      }
-    },
-    address: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 38
-      },
-      format: {
-        pattern: "\[a-z0-9\x20]+$",
-        flags: "i",
-        message: "can only contain a-z and 0-9 and space"
-      }
-    },
-    address2: {
-      length: {
-        minimum: 3,
-        maximum: 38
-      },
-      format: {
-        pattern: "\[a-z0-9\x20]+$",
-        flags: "i",
-        message: "can only contain a-z and 0-9 and space"
-      }
-    },
-    suburb: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 27
-      },
-      format: {
-        pattern: "\[a-z\x20]+$",
-        flags: "i",
-        message: "can only contain a-z"
-      }
-    },
-    state: {
-      presence: true,
-      length: {
-        minimum: 2,
-        maximum: 3
-      },
-      format: {
-        pattern: "[A-Z]+",
-        message: "can only contain A-Z"
-      }
-    },
-    postcode: {
-      presence: true,
-      format: {
-        pattern: "\\d{4}"
-      }
-    }
-  };
+  var payerConstraints = {}
+  //var payerConstraints = {
+    //ABN: {
+      //presence: true,
+			//abn: true,
+      //length: {
+        //maximum: 11
+      //},
+      //format: {
+        //pattern: "[0-9]+",
+        //message: "can only contain 0-9"
+      //}
+    //},
+    //ABNBranch: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 3
+      //},
+      //format: {
+        //pattern: "[0-9]+",
+        //message: "can only contain 0-9"
+      //}
+    //},
+    //financialYear: {
+      //presence: true,
+      //length: {
+        //minimum: 4,
+        //maximum: 4
+      //},
+      //format: {
+        //pattern: "[0-9]+",
+        //message: "can only contain 0-9"
+      //}
+    //},
+    //endDate: {
+      //presence: true,
+      //customdate: true
+    //},
+    //name: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 200
+      //},
+      //format: {
+        //pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'&-]+",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9"
+      //}
+    //},
+    //contactName: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 38
+      //},
+      //format: {
+        //pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'&-]+",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9"
+      //}
+    //},
+    //contactNumber: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 15
+      //},
+      //format: {
+        //pattern: "[0-9]+",
+        //message: "can only contain 0-9"
+      //}
+    //},
+    //tradingname: {
+      //length: {
+        //minimum: 3,
+        //maximum: 200
+      //},
+      //format: {
+        //pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'&-]+",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9"
+      //}
+    //},
+    //address: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 38
+      //},
+      //format: {
+        //pattern: "\[a-z0-9\x20]+$",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9 and space"
+      //}
+    //},
+    //address2: {
+      //length: {
+        //minimum: 3,
+        //maximum: 38
+      //},
+      //format: {
+        //pattern: "\[a-z0-9\x20]+$",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9 and space"
+      //}
+    //},
+    //suburb: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 27
+      //},
+      //format: {
+        //pattern: "\[a-z\x20]+$",
+        //flags: "i",
+        //message: "can only contain a-z"
+      //}
+    //},
+    //state: {
+      //presence: true,
+      //length: {
+        //minimum: 2,
+        //maximum: 3
+      //},
+      //format: {
+        //pattern: "[A-Z]+",
+        //message: "can only contain A-Z"
+      //}
+    //},
+    //postcode: {
+      //presence: true,
+      //format: {
+        //pattern: "\\d{4}"
+      //}
+    //}
+  //};
   var payerErrors = validate(window.payer, payerConstraints)
 
   empnumb = ['TFN','taxWithheld','grossPayments',
@@ -788,196 +815,197 @@ function validateXBRLOld() {
     ]
   
 
-  var employeeConstraints = {
-    TFN: {
-      presence: true,
-			tfn: true,
-      length: {
-        minimum: 9,
-        maximum: 9
-      },
-      format: {
-        pattern: "[0-9]+",
-        message: "can only contain 0-9"
-      }
-    },
-    DOB: {
-      presence: true,
-      customdate: true
-    },
-    periodStart: {
-      presence: true,
-      customdate: true
-    },
-    periodEnd: {
-      presence: true,
-      customdate: true
-    },
-    taxWithheld: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    grossPayments: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    allowances: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    lumpsumA: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    lumpsumB: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    lumpsumD: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    lumpsumE: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    fb: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    superSGC: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    workplaceGiving: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    union: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    foreign: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    annuity: {
-      format: {
-        pattern: "^[0-9]{0,8}$"
-      }
-    },
-    amendment: {
-      presence: true,
-      format: {
-        pattern: "^[O,A]{1}$"
-      }
-    },
-    fbtExempt: {
-      format: {
-        pattern: "^[Y,N]{1}$"
-      }
-    },
-    name: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 200
-      },
-      format: {
-        pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+",
-        flags: "i",
-        message: "can only contain a-z and 0-9"
-      }
-    },
-    secondName: {
-      length: {
-        minimum: 3,
-        maximum: 200
-      },
-      format: {
-        pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+",
-        flags: "i",
-        message: "can only contain a-z and 0-9"
-      }
-    },
-    surname: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 38
-      },
-      format: {
-        //pattern: "[a-z0-9]+",
-        pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+",
-        flags: "i",
-        message: "can only contain a-z and 0-9"
-      }
-    },
-    address: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 38
-      },
-      format: {
-        pattern: "\[a-z0-9\x20]+$",
-        flags: "i",
-        message: "can only contain a-z and 0-9 and space"
-      }
-    },
-    address2: {
-      length: {
-        minimum: 3,
-        maximum: 38
-      },
-      format: {
-        pattern: "\[a-z0-9\x20]+$",
-        flags: "i",
-        message: "can only contain a-z and 0-9 and space"
-      }
-    },
-    suburb: {
-      presence: true,
-      length: {
-        minimum: 3,
-        maximum: 27
-      },
-      format: {
-        pattern: "\[a-z\x20]+$",
-        flags: "i",
-        message: "can only contain a-z"
-      }
-    },
-    state: {
-      presence: true,
-      length: {
-        minimum: 2,
-        maximum: 3
-      },
-      format: {
-        pattern: "[A-Z]+",
-        message: "can only contain A-Z"
-      }
-    },
-    postcode: {
-      presence: true,
-      format: {
-        pattern: "\\d{4}"
-      }
-    }
-  };
+  var employeeConstraints = {}
+  //var employeeConstraints = {
+    //TFN: {
+      //presence: true,
+			//tfn: true,
+      //length: {
+        //minimum: 9,
+        //maximum: 9
+      //},
+      //format: {
+        //pattern: "[0-9]+",
+        //message: "can only contain 0-9"
+      //}
+    //},
+    //DOB: {
+      //presence: true,
+      //customdate: true
+    //},
+    //periodStart: {
+      //presence: true,
+      //customdate: true
+    //},
+    //periodEnd: {
+      //presence: true,
+      //customdate: true
+    //},
+    //taxWithheld: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //grossPayments: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //allowances: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //lumpsumA: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //lumpsumB: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //lumpsumD: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //lumpsumE: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //fb: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //superSGC: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //workplaceGiving: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //union: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //foreign: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //annuity: {
+      //format: {
+        //pattern: "^[0-9]{0,8}$"
+      //}
+    //},
+    //amendment: {
+      //presence: true,
+      //format: {
+        //pattern: "^[O,A]{1}$"
+      //}
+    //},
+    //fbtExempt: {
+      //format: {
+        //pattern: "^[Y,N]{1}$"
+      //}
+    //},
+    //name: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 200
+      //},
+      //format: {
+        //pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9"
+      //}
+    //},
+    //secondName: {
+      //length: {
+        //minimum: 3,
+        //maximum: 200
+      //},
+      //format: {
+        //pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9"
+      //}
+    //},
+    //surname: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 38
+      //},
+      //format: {
+        ////pattern: "[a-z0-9]+",
+        //pattern: "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9"
+      //}
+    //},
+    //address: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 38
+      //},
+      //format: {
+        //pattern: "\[a-z0-9\x20]+$",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9 and space"
+      //}
+    //},
+    //address2: {
+      //length: {
+        //minimum: 3,
+        //maximum: 38
+      //},
+      //format: {
+        //pattern: "\[a-z0-9\x20]+$",
+        //flags: "i",
+        //message: "can only contain a-z and 0-9 and space"
+      //}
+    //},
+    //suburb: {
+      //presence: true,
+      //length: {
+        //minimum: 3,
+        //maximum: 27
+      //},
+      //format: {
+        //pattern: "\[a-z\x20]+$",
+        //flags: "i",
+        //message: "can only contain a-z"
+      //}
+    //},
+    //state: {
+      //presence: true,
+      //length: {
+        //minimum: 2,
+        //maximum: 3
+      //},
+      //format: {
+        //pattern: "[A-Z]+",
+        //message: "can only contain A-Z"
+      //}
+    //},
+    //postcode: {
+      //presence: true,
+      //format: {
+        //pattern: "\\d{4}"
+      //}
+    //}
+  //};
 
   window.employeeErrors = []
   window.errorNames = []
@@ -991,7 +1019,6 @@ function validateXBRLOld() {
            //window.employees[i][key] = window.employees[i][key].trim(); 
     //}
 
-    //window.employees[i].annuity = "0";
     var errors = validate(window.employees[i], employeeConstraints);
     if (errors) {
       window.employeeErrors.push(errors)
@@ -1072,8 +1099,9 @@ function validateXBRLOld() {
 
 }
 function openfile() {
-  var createbutton = document.getElementById('createbutton');
-  var pdfbutton = document.getElementById('pdfbutton');
+  // TODO: MAKE HERE BUTTON DOWNLOAD FILE FOR XBRL NEXT
+  var lodgebutton = document.getElementById('createbutton');
+  var filebutton = document.getElementById('pdfbutton');
   if (window.valid) {
     createbutton.disabled = false
     createbutton.onclick = function() {createXBRL()};
@@ -1498,7 +1526,7 @@ function main() {
   window.payer = window.testPayer;
   tableCreate();
   openvalidate();
-  validateXBRL()
+  //validateXBRL()
 
 
   window.excluded = "N"
