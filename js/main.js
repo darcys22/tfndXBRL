@@ -1,3 +1,5 @@
+var sbr1lodger = new SBR1Lodger();
+
 window.testEmployee = [
     {
         "name": "Sean",
@@ -545,7 +547,7 @@ function buildXBRL() {
 
   var serializer = new XMLSerializer();
   var xmlString = serializer.serializeToString(xmlDoc);
-  console.log(vkbeautify.xml(xmlString));
+  //console.log(vkbeautify.xml(xmlString));
   return vkbeautify.xml(xmlString);
 }
 
@@ -1102,7 +1104,7 @@ function openfile() {
   var filebutton = document.getElementById('xbrlfile');
   if (window.valid) {
     lodgebutton.disabled = false
-    lodgebutton.onclick = function() {};
+    lodgebutton.onclick = function() {lodgeXBRL()};
     filebutton.disabled = false
     filebutton.onclick = function() {createXBRL()};
   } else {
@@ -1128,6 +1130,14 @@ function download(filename, text) {
 
 function createXBRL() {
   download("TFND", window.xbrl);
+}
+
+function lodgeXBRL() {
+  jQuery.get('http://localhost:8000/example.xml', function(data) {
+      var serializer = new XMLSerializer();
+      var xmlString = serializer.serializeToString(data);
+      sbr1lodger.lodge(xmlString);
+  });
 }
 
 function addSupplierDataRecords() {
