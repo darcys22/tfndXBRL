@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://www.w3.org/2003/05/soap-envelope">
+    <S:Header>
+        <wsse:Security ns0:MustUnderstand="1"
+                       xmlns:ns0="http://www.w3.org/2003/05/soap-envelope" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <EncryptedAssertion:EncryptedAssertion wsu:Id="assertion_id"
+                                                   xmlns="urn:oasis:names:tc:SAML:2.0:assertion"
+                                                   xmlns:EncryptedAssertion="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+                <xenc:EncryptedData
+                        Type="http://www.w3.org/2001/04/xmlenc#Element" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">
+                    <xenc:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/>
+                    <KeyInfo:KeyInfo
+                            xmlns="http://www.w3.org/2000/09/xmldsig#" xmlns:KeyInfo="http://www.w3.org/2000/09/xmldsig#">
+                        <e:EncryptedKey xmlns:e="http://www.w3.org/2001/04/xmlenc#">
+                            <e:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p">
+                                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                            </e:EncryptionMethod>
+                            <KeyInfo>
+                                <o:SecurityTokenReference xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+                                    <X509Data>
+                                        <X509IssuerSerial>
+                                            <X509IssuerName>CN=Australian Government Authentication Services OCA - G2, OU=For Development purposes ONLY, OU=Australian Authentication Services, O=Australian Government, C=AU</X509IssuerName>
+                                            <X509SerialNumber>38604690174694584784568861399985626074</X509SerialNumber>
+                                        </X509IssuerSerial>
+                                    </X509Data>
+                                </o:SecurityTokenReference>
+                            </KeyInfo>
+                            <e:CipherData>
+                                <e:CipherValue>lP2XiTKe4Y3eCgW6j45q2K3P+dQzfccL+LHT0LDKR0vCfDVdFHRgz4EhB/yDUThZQHUXvEnBlSOYCAqZZu5MatrsV41ozzfAWGLWcsnRXaxxOKRAtsNWVMj9rfJQo4TwNwPY8C9mbJvRUurMT21Uv8d5FffRTh2NjVvsxGRozvKwClQ8QKNlrO4biOZtVoCuS96sELH0f5tt9G47v/Y678t8XaslYo4op58D/MoHzJ8nfg7I/cm29EWn1v1qMVbFz6Gzt0u9OM8uvWMbOGP9epbr21I3kPFIOMaOK1NxsqkU6muAXfTL85fWyGHGalOuU9l5iKo4kbK262jVgm2+qw==</e:CipherValue>
+                            </e:CipherData>
+                        </e:EncryptedKey>
+                    </KeyInfo:KeyInfo>
+                    <xenc:CipherData>
+                        <xenc:CipherValue>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</xenc:CipherValue>
+                    </xenc:CipherData>
+                </xenc:EncryptedData>
+            </EncryptedAssertion:EncryptedAssertion>
+            <wsse:BinarySecurityToken
+                    EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"
+                    ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"
+                    wsu:Id="BinarySecurityToken-2b719a60-2d38-479e-a8e1-81302cf9aba8" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">MIIEFzCCAv+gAwIBAgIDAmAbMA0GCSqGSIb3DQEBCwUAMIGFMQswCQYDVQQGEwJBVTElMCMGA1UEChMcQXVzdHJhbGlhbiBCdXNpbmVzcyBSZWdpc3RlcjEgMB4GA1UECxMXQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkxLTArBgNVBAMTJFRlc3QgQXVzdHJhbGlhbiBCdXNpbmVzcyBSZWdpc3RlciBDQTAeFw0xNzAzMDEwMzMwNDBaFw0xOTAzMDEwMzMwNDBaMEsxETAPBgNVBC4TCDIxMDAxMDAwMQswCQYDVQQGEwJBVTEUMBIGA1UEChMLMTgwODM5NzM4MjYxEzARBgNVBAMTCkRhYWQgU21pdGgwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMI85N49znblqxmY7C/w9VVhAh/IsCdzqeNarJ7zXsJRQ86uo0tDf9obMwLUJZbB/Np9EhnEsCHd1z1m3ipj3vM1f+7mt2xgZ5quYLeJDLHOkOXpOd2SZGmHIhBcKVC+GIqVqn+OKskwH5LzBjCgwleOF1dBvuyMJ5kR7+bcomKzAgMBAAGjggFLMIIBRzAMBgNVHRMBAf8EAjAAMIHsBgNVHSAEgeQwgeEwgd4GCSokAZc5ZQEHATCB0DCBrgYIKwYBBQUHAgIwgaEagZ5UaGlzIGNlcnRpZmljYXRlIG1heSBvbmx5IGJlIHVzZWQgZm9yIHRoZSBwdXJwb3NlIHBlcm1pdHRlZCBpbiB0aGUgYXBwbGljYWJsZSBDZXJ0aWZpY2F0ZSBQb2xpY3kuIExpbWl0ZWQgbGlhYmlsaXR5IGFwcGxpZXMgLSByZWZlciB0byB0aGUgQ2VydGlmaWNhdGUgUG9saWN5LjAdBggrBgEFBQcCARYRd3d3LnRlc3RhYnJjYS5jb20wFwYGKiQBgk0BBA0WCzE4MDgzOTczODI2MA4GA1UdDwEB/wQEAwIE8DAfBgNVHSMEGDAWgBSNJSe8X6CaceeTd/mwGWIsmXZa/TANBgkqhkiG9w0BAQsFAAOCAQEANSKmyMJHwUppz/pVwerzqB9toBTK/Rb6NoT3HJ83lS3QlDSZIW6OvWTYsSOijAJ1tGwJK/dcXO5mOHXQG9JLBLMtzo1D2NURmdjaHnvyEqoDINoAi+oYFCJ9swy4k3UgvyOuz0sNYgGTtg6LK6GwFMWa7rsBPGArs8nUJq8XWz3s+lq3/74pUyKPP1S/kb+5A2Q7YrAVDRKpLDHkdUqrxfK0gHpDfvsT+Jg3e+xwRZnLijplXErX37p4W1HVC+axRYiFqWLThGAynTcjm4SV9OILNF4AtgiH2MwrATVZszUa8TaVEbMKICXdMZzGo7mMKGfHAi8L9lnLLzMFs7RPQQ==</wsse:BinarySecurityToken>
+            <ds:Signature Id="signature_id" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                <ds:SignedInfo Id="signedInfo-07033977-15b5-4061-aef7-06f7019d3fcc">
+                    <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                    <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+                    <ds:Reference URI="#SBDM_id">
+                        <ds:Transforms>
+                            <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                        </ds:Transforms>
+                        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                        <ds:DigestValue>ZVV3VDchmlg05q99OG64Zevq0Bw=</ds:DigestValue>
+                    </ds:Reference>
+                    <ds:Reference URI="#BinarySecurityToken-2b719a60-2d38-479e-a8e1-81302cf9aba8">
+                        <ds:Transforms>
+                            <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                        </ds:Transforms>
+                        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                        <ds:DigestValue>02mk92gNXobwKX94n7Ms98CGghY=</ds:DigestValue>
+                    </ds:Reference>
+                </ds:SignedInfo>
+                <ds:SignatureValue Id="signatureValue-adc64438-2a15-4f6c-a7a1-f565ecf06653">Rnebo5sEoXqQZcvfXrZif+9fEtms6QbllIspGC2oujFRNEr3TlPE43eCOgsCT+LNnuJKqAvR1Lor
+                    QeZiLxd3uPaG9Wr46TsEe3JMH+5bZ2yQk52Bd6PnHY8ADYI4S6RE2iryRErCRtM6G1tWOyQ2pyfh
+                    syUehEQ/QQQ/24cCjpU=</ds:SignatureValue>
+                <ds:KeyInfo Id="KeyInfo-568c5ae9-c4e6-41d3-8058-7df538882550">
+                    <wsse:SecurityTokenReference>
+                        <wsse:Reference
+                                URI="#BinarySecurityToken-2b719a60-2d38-479e-a8e1-81302cf9aba8" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"/>
+                    </wsse:SecurityTokenReference>
+                </ds:KeyInfo>
+            </ds:Signature>
+            <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                <ds:SignedInfo>
+                    <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                    <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#hmac-sha1"/>
+                    <ds:Reference URI="#signature_id">
+                        <ds:Transforms>
+                            <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                        </ds:Transforms>
+                        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                        <ds:DigestValue>2SJp1FYcSq3NDVZImiXvWBuBIFo=</ds:DigestValue>
+                    </ds:Reference>
+                    <ds:Reference URI="#assertion_id">
+                        <ds:Transforms>
+                            <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                        </ds:Transforms>
+                        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                        <ds:DigestValue>VxR8HeUwxAQsuLi7BemEAdmWKok=</ds:DigestValue>
+                    </ds:Reference>
+                    <ds:Reference URI="#Body-a3b32ad9-a38c-477f-9b87-6ad4565bc178">
+                        <ds:Transforms>
+                            <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                        </ds:Transforms>
+                        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                        <ds:DigestValue>tHx0tL39vtK5TCzQN+r/h0BZX4E=</ds:DigestValue>
+                    </ds:Reference>
+                </ds:SignedInfo>
+                <ds:SignatureValue>EuTD+qmuTK2xZd+kpe3n+huSZI4=</ds:SignatureValue>
+            </ds:Signature>
+        </wsse:Security>
+    </S:Header>
+    <S:Body wsu:Id="Body-a3b32ad9-a38c-477f-9b87-6ad4565bc178" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+        <ns5:RequestLodgeReport
+                xmlns:ns2="http://sbr.gov.au/comn/core.02.data"
+                xmlns:ns3="http://sbr.gov.au/comn/sbdm.02.data"
+                xmlns:ns4="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                xmlns:ns5="http://sbr.gov.au/comn/lodge.02.service" xmlns:xmime="http://www.w3.org/2005/05/xmlmime">
+            <ns3:StandardBusinessDocumentMessage ns4:Id="SBDM_id">
+                <ns3:StandardBusinessDocumentHeader>
+                    <ns3:Message.Type.Text>tfnd.0003.2016.lodge.request</ns3:Message.Type.Text>
+                    <ns3:MessageTimestamps>
+                        <ns3:MessageTimestamp>
+                            <ns3:Message.Timestamp.Generation.Datetime>2017-07-17T05:34:12.621Z</ns3:Message.Timestamp.Generation.Datetime>
+                            <ns3:Message.Timestamp.GenerationSource.Code>BusinessEntity</ns3:Message.Timestamp.GenerationSource.Code>
+                        </ns3:MessageTimestamp>
+                    </ns3:MessageTimestamps>
+                    <ns3:Receiver>
+                        <ns3:IdentificationDetails.IdentifierDesignation.Text>ato.gov.au</ns3:IdentificationDetails.IdentifierDesignation.Text>
+                        <ns3:IdentificationDetails.IdentifierName.Text>AgencyInternetDomainName</ns3:IdentificationDetails.IdentifierName.Text>
+                    </ns3:Receiver>
+                    <ns3:SoftwareInformation>
+                        <ns3:OrganisationNameDetails.OrganisationalName.Text></ns3:OrganisationNameDetails.OrganisationalName.Text>
+                        <ns3:SoftwareInformation.ProductName.Text></ns3:SoftwareInformation.ProductName.Text>
+                        <ns3:SoftwareInformation.ProductVersion.Text></ns3:SoftwareInformation.ProductVersion.Text>
+                    </ns3:SoftwareInformation>
+                    <ns3:BusinessDocuments>
+                        <ns3:BusinessDocument>
+                            <ns3:BusinessDocument.Sequence.Number>1</ns3:BusinessDocument.Sequence.Number>
+                            <ns3:BusinessDocument.Creation.Datetime>2017-07-17T05:34:10.263Z</ns3:BusinessDocument.Creation.Datetime>
+                            <ns3:BusinessDocument.ValidationUniformResourceIdentifier.Text>http://sbr.gov.au/taxonomy/sbr_au_reports/ato/tfnd/tfnd_0003/tfnd.0003.lodge.request.02.00.report.xsd</ns3:BusinessDocument.ValidationUniformResourceIdentifier.Text>
+                            <ns3:BusinessDocument.BusinessGeneratedIdentifier.Text>08ee4709-734f-4c05-9463-a6f357686a73</ns3:BusinessDocument.BusinessGeneratedIdentifier.Text>
+                        </ns3:BusinessDocument>
+                    </ns3:BusinessDocuments>
+                </ns3:StandardBusinessDocumentHeader>
+                <ns3:StandardBusinessDocumentBody>
+                    <ns3:BusinessDocumentInstances>
+                        <ns3:BusinessDocumentInstance>
+                            <ns3:BusinessDocument.Sequence.Number>1</ns3:BusinessDocument.Sequence.Number>
+                            <ns3:BusinessDocument.Instance.Text>
+                                <xbrli:xbrl
+                                        xmlns:OpenCloseBalance.02.00="http://sbr.gov.au/dims/OpenCloseBalance.02.00.dims"
+                                        xmlns:RprtPyType.02.12="http://sbr.gov.au/dims/RprtPyType.02.12.dims"
+                                        xmlns:address1.02.02="http://sbr.gov.au/comnmdle/comnmdle.addressdetails1.02.02.module"
+                                        xmlns:declaration1.02.01="http://sbr.gov.au/comnmdle/comnmdle.declaration1.02.01.module"
+                                        xmlns:dtyp.02.00="http://sbr.gov.au/fdtn/sbr.02.00.dtyp"
+                                        xmlns:edte.02.00="http://sbr.gov.au/icls/ed/edte/edte.02.00.data"
+                                        xmlns:edte.02.01="http://sbr.gov.au/icls/ed/edte/edte.02.01.data"
+                                        xmlns:edte.02.02="http://sbr.gov.au/icls/ed/edte/edte.02.02.data"
+                                        xmlns:edte.02.03="http://sbr.gov.au/icls/ed/edte/edte.02.03.data"
+                                        xmlns:email1.02.00="http://sbr.gov.au/comnmdle/comnmdle.electroniccontactelectronicmail1.02.00.module"
+                                        xmlns:fax1.02.00="http://sbr.gov.au/comnmdle/comnmdle.electroniccontactfacsimile1.02.00.module"
+                                        xmlns:gfati.02.00="http://sbr.gov.au/icls/gfa/gfati/gfati.02.00.data"
+                                        xmlns:iso4217="http://www.xbrl.org/2003/iso4217"
+                                        xmlns:link="http://www.xbrl.org/2003/linkbase"
+                                        xmlns:lrla.02.00="http://sbr.gov.au/icls/lr/lrla/lrla.02.00.data"
+                                        xmlns:orgname1.02.00="http://sbr.gov.au/comnmdle/comnmdle.organisationname1.02.00.module"
+                                        xmlns:phone1.02.00="http://sbr.gov.au/comnmdle/comnmdle.electroniccontacttelephone1.02.00.module"
+                                        xmlns:prsnstrcnm2.02.00="http://sbr.gov.au/comnmdle/comnmdle.personstructuredname2.02.00.module"
+                                        xmlns:prsnunstrcnm1.02.01="http://sbr.gov.au/comnmdle/comnmdle.personunstructuredname1.02.01.module"
+                                        xmlns:pyde.02.00="http://sbr.gov.au/icls/py/pyde/pyde.02.00.data"
+                                        xmlns:pyde.02.01="http://sbr.gov.au/icls/py/pyde/pyde.02.01.data"
+                                        xmlns:pyde.02.05="http://sbr.gov.au/icls/py/pyde/pyde.02.05.data"
+                                        xmlns:pyde.02.08="http://sbr.gov.au/icls/py/pyde/pyde.02.08.data"
+                                        xmlns:pyde.02.25="http://sbr.gov.au/icls/py/pyde/pyde.02.25.data"
+                                        xmlns:pyid.02.00="http://sbr.gov.au/icls/py/pyid/pyid.02.00.data"
+                                        xmlns:pyid.02.05="http://sbr.gov.au/icls/py/pyid/pyid.02.05.data"
+                                        xmlns:pyin.02.00="http://sbr.gov.au/icls/py/pyin/pyin.02.00.data"
+                                        xmlns:pyin.02.03="http://sbr.gov.au/icls/py/pyin/pyin.02.03.data"
+                                        xmlns:pylk.02.00="http://sbr.gov.au/icls/py/pylk/pylk.02.00.data"
+                                        xmlns:ref="http://www.xbrl.org/2006/ref"
+                                        xmlns:tech_01.02="http://sbr.gov.au/fdtn/sbr.01.02.tech"
+                                        xmlns:tfnd.0003.02.00="http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report"
+                                        xmlns:tfnd.0003.02.00.prv="http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.private.02.00.module"
+                                        xmlns:tfnd.0003.lodge.req.02.00="http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report"
+                                        xmlns:xbrldi="http://xbrl.org/2006/xbrldi"
+                                        xmlns:xbrldt="http://xbrl.org/2005/xbrldt"
+                                        xmlns:xbrli="http://www.xbrl.org/2003/instance"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                    <link:schemaRef
+                                            xlink:href="http://sbr.gov.au/taxonomy/sbr_au_reports/ato/tfnd/tfnd_0003/tfnd.0003.lodge.request.02.00.report.xsd" xlink:type="simple"/>
+                                    <xbrli:context id="RP">
+                                        <xbrli:entity>
+                                            <xbrli:identifier scheme="http://www.abr.gov.au/abn">49425379391</xbrli:identifier>
+                                            <xbrli:segment>
+                                                <xbrldi:explicitMember dimension="RprtPyType.02.12:ReportPartyTypeDimension">RprtPyType.02.12:ReportingParty</xbrldi:explicitMember>
+                                            </xbrli:segment>
+                                        </xbrli:entity>
+                                        <xbrli:period>
+                                            <xbrli:startDate>2015-07-01</xbrli:startDate>
+                                            <xbrli:endDate>2016-06-30</xbrli:endDate>
+                                        </xbrli:period>
+                                    </xbrli:context>
+                                    <xbrli:context id="INT">
+                                        <xbrli:entity>
+                                            <xbrli:identifier scheme="http://www.abr.gov.au/abn">18083973826</xbrli:identifier>
+                                            <xbrli:segment>
+                                                <xbrldi:explicitMember dimension="RprtPyType.02.12:ReportPartyTypeDimension">RprtPyType.02.12:Intermediary</xbrldi:explicitMember>
+                                            </xbrli:segment>
+                                        </xbrli:entity>
+                                        <xbrli:period>
+                                            <xbrli:startDate>2015-07-01</xbrli:startDate>
+                                            <xbrli:endDate>2016-06-30</xbrli:endDate>
+                                        </xbrli:period>
+                                    </xbrli:context>
+                                    <tfnd.0003.lodge.req.02.00:Payee>
+
+                                        <pyid.02.00:Identifiers.TaxFileNumber.Identifier contextRef="RP">29193434</pyid.02.00:Identifiers.TaxFileNumber.Identifier>
+
+                                        <pyde.02.00:PersonDemographicDetails.Birth.Date contextRef="RP">1989-07-05</pyde.02.00:PersonDemographicDetails.Birth.Date>
+
+                                        <pyid.02.05:Identifiers.EmploymentPayrollNumber.Identifier contextRef="RP">8542</pyid.02.05:Identifiers.EmploymentPayrollNumber.Identifier>
+
+                                        <pyde.02.25:Residency.TaxPurposesPersonStatus.Indicator contextRef="RP">true</pyde.02.25:Residency.TaxPurposesPersonStatus.Indicator>
+
+                                        <pylk.02.00:PaymentArrangement.PaymentBasis.Code contextRef="RP">F</pylk.02.00:PaymentArrangement.PaymentBasis.Code>
+
+                                        <gfati.02.00:TaxOffsetClaim.TaxFreeThreshold.Indicator contextRef="RP">true</gfati.02.00:TaxOffsetClaim.TaxFreeThreshold.Indicator>
+
+                                        <gfati.02.00:TaxOffsetClaim.SeniorAustraliansTaxOffset.Indicator contextRef="RP">false</gfati.02.00:TaxOffsetClaim.SeniorAustraliansTaxOffset.Indicator>
+
+                                        <gfati.02.00:TaxOffsetClaim.Zone.Indicator contextRef="RP">true</gfati.02.00:TaxOffsetClaim.Zone.Indicator>
+
+                                        <gfati.02.00:TaxOffsetClaim.OverseasForces.Indicator contextRef="RP">true</gfati.02.00:TaxOffsetClaim.OverseasForces.Indicator>
+
+                                        <gfati.02.00:TaxOffsetClaim.DependantSpouse.Indicator contextRef="RP">true</gfati.02.00:TaxOffsetClaim.DependantSpouse.Indicator>
+
+                                        <gfati.02.00:TaxOffsetClaim.ParentSpouseOrInvalidRelative.Indicator contextRef="RP">true</gfati.02.00:TaxOffsetClaim.ParentSpouseOrInvalidRelative.Indicator>
+
+                                        <edte.02.00:StudentLoan.HigherEducationLoanProgramme.Indicator contextRef="RP">true</edte.02.00:StudentLoan.HigherEducationLoanProgramme.Indicator>
+
+                                        <edte.02.01:StudentLoan.TradeSupport.Indicator contextRef="RP">true</edte.02.01:StudentLoan.TradeSupport.Indicator>
+
+                                        <edte.02.02:StudentLoan.StudentStartupLoan.Indicator contextRef="RP">true</edte.02.02:StudentLoan.StudentStartupLoan.Indicator>
+
+                                        <edte.02.03:StudentLoan.StudentStartupLoanAbstudy.Indicator contextRef="RP">true</edte.02.03:StudentLoan.StudentStartupLoanAbstudy.Indicator>
+
+                                        <edte.02.00:StudentLoan.StudentFinancialSupplementScheme.Indicator contextRef="RP">false</edte.02.00:StudentLoan.StudentFinancialSupplementScheme.Indicator>
+                                        <prsnstrcnm2.02.00:PersonNameDetails>
+
+                                            <pyde.02.00:PersonNameDetails.PersonNameType.Code contextRef="RP">LGL</pyde.02.00:PersonNameDetails.PersonNameType.Code>
+
+                                            <pyde.02.00:PersonNameDetails.Currency.Code contextRef="RP">C</pyde.02.00:PersonNameDetails.Currency.Code>
+
+                                            <pyde.02.00:PersonNameDetails.FamilyName.Text contextRef="RP">Higgins</pyde.02.00:PersonNameDetails.FamilyName.Text>
+
+                                            <pyde.02.00:PersonNameDetails.GivenName.Text contextRef="RP">Kate</pyde.02.00:PersonNameDetails.GivenName.Text>
+
+                                            <pyde.02.00:PersonNameDetails.OtherGivenName.Text contextRef="RP">Moss</pyde.02.00:PersonNameDetails.OtherGivenName.Text>
+                                        </prsnstrcnm2.02.00:PersonNameDetails>
+                                        <prsnstrcnm2.02.00:PersonNameDetails>
+
+                                            <pyde.02.00:PersonNameDetails.PersonNameType.Code contextRef="RP">LGL</pyde.02.00:PersonNameDetails.PersonNameType.Code>
+
+                                            <pyde.02.00:PersonNameDetails.Currency.Code contextRef="RP">P</pyde.02.00:PersonNameDetails.Currency.Code>
+
+                                            <pyde.02.00:PersonNameDetails.FamilyName.Text contextRef="RP">Mowsan</pyde.02.00:PersonNameDetails.FamilyName.Text>
+                                        </prsnstrcnm2.02.00:PersonNameDetails>
+                                        <address1.02.02:AddressDetails>
+
+                                            <pyde.02.00:AddressDetails.OverseasAddress.Indicator contextRef="RP">false</pyde.02.00:AddressDetails.OverseasAddress.Indicator>
+
+                                            <pyde.02.01:AddressDetails.Usage.Code contextRef="RP">RES</pyde.02.01:AddressDetails.Usage.Code>
+
+                                            <pyde.02.00:AddressDetails.Line1.Text contextRef="RP">376 Albert Crescent</pyde.02.00:AddressDetails.Line1.Text>
+
+                                            <pyde.02.00:AddressDetails.LocalityName.Text contextRef="RP">North Sydney</pyde.02.00:AddressDetails.LocalityName.Text>
+
+                                            <pyde.02.00:AddressDetails.Postcode.Text contextRef="RP">2100</pyde.02.00:AddressDetails.Postcode.Text>
+
+                                            <pyde.02.00:AddressDetails.StateOrTerritory.Code contextRef="RP">NSW</pyde.02.00:AddressDetails.StateOrTerritory.Code>
+
+                                            <pyde.02.08:AddressDetails.CountryName.Text contextRef="RP">AUSTRALIA</pyde.02.08:AddressDetails.CountryName.Text>
+                                        </address1.02.02:AddressDetails>
+                                        <declaration1.02.01:Declaration>
+
+                                            <pyin.02.03:Declaration.StatementType.Code contextRef="RP">HardCopy</pyin.02.03:Declaration.StatementType.Code>
+
+                                            <pyin.02.00:Declaration.StatementAccepted.Indicator contextRef="RP">true</pyin.02.00:Declaration.StatementAccepted.Indicator>
+
+                                            <pyin.02.00:Declaration.Signature.Date contextRef="RP">2015-08-15</pyin.02.00:Declaration.Signature.Date>
+
+                                            <pyin.02.00:Declaration.SignatoryIdentifier.Text contextRef="RP">katehiggins@example.com</pyin.02.00:Declaration.SignatoryIdentifier.Text>
+                                        </declaration1.02.01:Declaration>
+                                    </tfnd.0003.lodge.req.02.00:Payee>
+
+                                    <pyde.02.00:OrganisationDetails.OrganisationBranch.Code contextRef="INT">123</pyde.02.00:OrganisationDetails.OrganisationBranch.Code>
+                                    <orgname1.02.00:OrganisationNameDetails>
+
+                                        <pyde.02.00:OrganisationNameDetails.OrganisationalNameType.Code contextRef="INT">MN</pyde.02.00:OrganisationNameDetails.OrganisationalNameType.Code>
+
+                                        <pyde.02.00:OrganisationNameDetails.OrganisationalName.Text contextRef="INT">Taxit Pty Ltd</pyde.02.00:OrganisationNameDetails.OrganisationalName.Text>
+                                    </orgname1.02.00:OrganisationNameDetails>
+                                    <address1.02.02:AddressDetails>
+
+                                        <pyde.02.00:AddressDetails.OverseasAddress.Indicator contextRef="INT">false</pyde.02.00:AddressDetails.OverseasAddress.Indicator>
+
+                                        <pyde.02.01:AddressDetails.Usage.Code contextRef="INT">BUS</pyde.02.01:AddressDetails.Usage.Code>
+
+                                        <pyde.02.00:AddressDetails.AttentionTo.Text contextRef="INT">Attention Ground Floor Reception</pyde.02.00:AddressDetails.AttentionTo.Text>
+
+                                        <pyde.02.00:AddressDetails.Line1.Text contextRef="INT">15, Phillip Street</pyde.02.00:AddressDetails.Line1.Text>
+
+                                        <pyde.02.00:AddressDetails.Line2.Text contextRef="INT">MeerCat Building</pyde.02.00:AddressDetails.Line2.Text>
+
+                                        <pyde.02.00:AddressDetails.LocalityName.Text contextRef="INT">Sydney</pyde.02.00:AddressDetails.LocalityName.Text>
+
+                                        <pyde.02.00:AddressDetails.Postcode.Text contextRef="INT">2000</pyde.02.00:AddressDetails.Postcode.Text>
+
+                                        <pyde.02.00:AddressDetails.StateOrTerritory.Code contextRef="INT">NSW</pyde.02.00:AddressDetails.StateOrTerritory.Code>
+
+                                        <pyde.02.08:AddressDetails.CountryName.Text contextRef="INT">AUSTRALIA</pyde.02.08:AddressDetails.CountryName.Text>
+                                    </address1.02.02:AddressDetails>
+                                    <address1.02.02:AddressDetails>
+
+                                        <pyde.02.00:AddressDetails.OverseasAddress.Indicator contextRef="INT">false</pyde.02.00:AddressDetails.OverseasAddress.Indicator>
+
+                                        <pyde.02.01:AddressDetails.Usage.Code contextRef="INT">POS</pyde.02.01:AddressDetails.Usage.Code>
+
+                                        <pyde.02.00:AddressDetails.AttentionTo.Text contextRef="INT">C/O Building Manager</pyde.02.00:AddressDetails.AttentionTo.Text>
+
+                                        <pyde.02.00:AddressDetails.Line1.Text contextRef="INT">15, Phillip Street</pyde.02.00:AddressDetails.Line1.Text>
+
+                                        <pyde.02.00:AddressDetails.Line2.Text contextRef="INT">MeerCat Building</pyde.02.00:AddressDetails.Line2.Text>
+
+                                        <pyde.02.00:AddressDetails.LocalityName.Text contextRef="INT">Sydney</pyde.02.00:AddressDetails.LocalityName.Text>
+
+                                        <pyde.02.00:AddressDetails.Postcode.Text contextRef="INT">2000</pyde.02.00:AddressDetails.Postcode.Text>
+
+                                        <pyde.02.00:AddressDetails.StateOrTerritory.Code contextRef="INT">NSW</pyde.02.00:AddressDetails.StateOrTerritory.Code>
+
+                                        <pyde.02.08:AddressDetails.CountryName.Text contextRef="INT">AUSTRALIA</pyde.02.08:AddressDetails.CountryName.Text>
+                                    </address1.02.02:AddressDetails>
+                                    <prsnunstrcnm1.02.01:PersonUnstructuredName>
+
+                                        <pyde.02.05:PersonUnstructuredName.Usage.Code contextRef="INT">Contact</pyde.02.05:PersonUnstructuredName.Usage.Code>
+
+                                        <pyde.02.00:PersonUnstructuredName.FullName.Text contextRef="INT">Tony Agent</pyde.02.00:PersonUnstructuredName.FullName.Text>
+                                    </prsnunstrcnm1.02.01:PersonUnstructuredName>
+                                    <phone1.02.00:ElectronicContactTelephone>
+
+                                        <pyde.02.00:ElectronicContact.Telephone.Usage.Code contextRef="INT">03</pyde.02.00:ElectronicContact.Telephone.Usage.Code>
+
+                                        <pyde.02.00:ElectronicContact.Telephone.ServiceLine.Code contextRef="INT">01</pyde.02.00:ElectronicContact.Telephone.ServiceLine.Code>
+
+                                        <pyde.02.00:ElectronicContact.Telephone.Area.Code contextRef="INT">02</pyde.02.00:ElectronicContact.Telephone.Area.Code>
+
+                                        <pyde.02.00:ElectronicContact.Telephone.Minimal.Number contextRef="INT">25928887</pyde.02.00:ElectronicContact.Telephone.Minimal.Number>
+                                    </phone1.02.00:ElectronicContactTelephone>
+                                    <fax1.02.00:ElectronicContactFacsimile>
+
+                                        <pyde.02.00:ElectronicContact.Facsimile.Usage.Code contextRef="INT">03</pyde.02.00:ElectronicContact.Facsimile.Usage.Code>
+
+                                        <pyde.02.00:ElectronicContact.Facsimile.Area.Code contextRef="INT">02</pyde.02.00:ElectronicContact.Facsimile.Area.Code>
+
+                                        <pyde.02.00:ElectronicContact.Facsimile.Minimal.Number contextRef="INT">25928888</pyde.02.00:ElectronicContact.Facsimile.Minimal.Number>
+                                    </fax1.02.00:ElectronicContactFacsimile>
+                                    <declaration1.02.01:Declaration>
+
+                                        <pyin.02.03:Declaration.StatementType.Code contextRef="INT">TrueAndCorrect</pyin.02.03:Declaration.StatementType.Code>
+
+                                        <pyin.02.00:Declaration.StatementAccepted.Indicator contextRef="INT">true</pyin.02.00:Declaration.StatementAccepted.Indicator>
+
+                                        <pyin.02.00:Declaration.Signature.Date contextRef="INT">2017-07-17</pyin.02.00:Declaration.Signature.Date>
+
+                                        <pyin.02.00:Declaration.SignatoryIdentifier.Text contextRef="INT">Sydney Tax</pyin.02.00:Declaration.SignatoryIdentifier.Text>
+                                    </declaration1.02.01:Declaration>
+                                    <address1.02.02:AddressDetails>
+
+                                        <pyde.02.00:AddressDetails.OverseasAddress.Indicator contextRef="RP">false</pyde.02.00:AddressDetails.OverseasAddress.Indicator>
+
+                                        <pyde.02.01:AddressDetails.Usage.Code contextRef="RP">BUS</pyde.02.01:AddressDetails.Usage.Code>
+
+                                        <pyde.02.00:AddressDetails.Line1.Text contextRef="RP">21, Arthur Street</pyde.02.00:AddressDetails.Line1.Text>
+
+                                        <pyde.02.00:AddressDetails.Line2.Text contextRef="RP">Sussex House</pyde.02.00:AddressDetails.Line2.Text>
+
+                                        <pyde.02.00:AddressDetails.LocalityName.Text contextRef="RP">Sydney</pyde.02.00:AddressDetails.LocalityName.Text>
+
+                                        <pyde.02.00:AddressDetails.Postcode.Text contextRef="RP">1234</pyde.02.00:AddressDetails.Postcode.Text>
+
+                                        <pyde.02.00:AddressDetails.StateOrTerritory.Code contextRef="RP">NSW</pyde.02.00:AddressDetails.StateOrTerritory.Code>
+
+                                        <pyde.02.08:AddressDetails.CountryName.Text contextRef="RP">AUSTRALIA</pyde.02.08:AddressDetails.CountryName.Text>
+                                    </address1.02.02:AddressDetails>
+                                    <prsnunstrcnm1.02.01:PersonUnstructuredName>
+
+                                        <pyde.02.05:PersonUnstructuredName.Usage.Code contextRef="RP">Contact</pyde.02.05:PersonUnstructuredName.Usage.Code>
+
+                                        <pyde.02.00:PersonUnstructuredName.FullName.Text contextRef="RP">Clive Owen Peter</pyde.02.00:PersonUnstructuredName.FullName.Text>
+                                    </prsnunstrcnm1.02.01:PersonUnstructuredName>
+                                    <orgname1.02.00:OrganisationNameDetails>
+
+                                        <pyde.02.00:OrganisationNameDetails.OrganisationalNameType.Code contextRef="RP">MN</pyde.02.00:OrganisationNameDetails.OrganisationalNameType.Code>
+
+                                        <pyde.02.00:OrganisationNameDetails.OrganisationalName.Text contextRef="RP">Labrodo Pvt Ltd</pyde.02.00:OrganisationNameDetails.OrganisationalName.Text>
+                                    </orgname1.02.00:OrganisationNameDetails>
+                                    <orgname1.02.00:OrganisationNameDetails>
+
+                                        <pyde.02.00:OrganisationNameDetails.OrganisationalNameType.Code contextRef="RP">MTR</pyde.02.00:OrganisationNameDetails.OrganisationalNameType.Code>
+
+                                        <pyde.02.00:OrganisationNameDetails.OrganisationalName.Text contextRef="RP">Pet Friends Company</pyde.02.00:OrganisationNameDetails.OrganisationalName.Text>
+                                    </orgname1.02.00:OrganisationNameDetails>
+                                    <declaration1.02.01:Declaration>
+
+                                        <pyin.02.03:Declaration.StatementType.Code contextRef="RP">TrueAndCorrect</pyin.02.03:Declaration.StatementType.Code>
+
+                                        <pyin.02.00:Declaration.StatementAccepted.Indicator contextRef="RP">true</pyin.02.00:Declaration.StatementAccepted.Indicator>
+
+                                        <pyin.02.00:Declaration.Signature.Date contextRef="RP">2017-07-17</pyin.02.00:Declaration.Signature.Date>
+
+                                        <pyin.02.00:Declaration.SignatoryIdentifier.Text contextRef="RP">info@petfriends.com.au</pyin.02.00:Declaration.SignatoryIdentifier.Text>
+                                    </declaration1.02.01:Declaration>
+                                </xbrli:xbrl>
+                            </ns3:BusinessDocument.Instance.Text>
+                        </ns3:BusinessDocumentInstance>
+                    </ns3:BusinessDocumentInstances>
+                </ns3:StandardBusinessDocumentBody>
+            </ns3:StandardBusinessDocumentMessage>
+        </ns5:RequestLodgeReport>
+    </S:Body>
+</S:Envelope>

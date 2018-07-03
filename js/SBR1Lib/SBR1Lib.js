@@ -69,30 +69,33 @@
 
     lodge: function (text) {
 
-      var xmlns = {
-          xbrli : "http://www.xbrl.org/2003/instance"
-      }
-
       var parser = new DOMParser();
       var messageXML = parser.parseFromString(text,"text/xml");
 
       var xmlDoc = document.implementation.createDocument('','',null);
       
-      var xbrl = xmlDoc.createElementNS(xmlns.xbrli,"xbrli:xbrl");
-      xmlDoc.appendChild(xbrl);
-      var context= xmlDoc.createElement("xbrli:context");
-      xbrl.appendChild(context); 
-      var entity= xmlDoc.createElement("xbrli:entity");
-      context.appendChild(entity); 
+      var xmlns = {
+        xmlns: "http://www.w3.org/2000/xmlns/",
+        Soap : "http://www.w3.org/2003/05/soap-envelope",
+        wsu: "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+      }
+      var soap = xmlDoc.createElementNS(xmlns.Soap,"Soap:Envelope");
+      xmlDoc.appendChild(soap);
+      var soapHeader= xmlDoc.createElement("Soap:Header");
+      soap.appendChild(soapHeader); 
+      var soapBody= xmlDoc.createElement( "Soap:Body");
+      soapBody.setAttributeNS(xmlns.xmlns, 'xmlns:wsu', xmlns.wsu);
+      //var soap = xmlDoc.createElementNS(xmlns.Soap,"Soap:Envelope");
+      soap.appendChild(soapBody); 
+      var documentText= xmlDoc.createElement("ns3:BusinessDocument.Instance.Text");
+      soapBody.appendChild(documentText); 
 
 
-      //TODO: NODE CANNOT BE INSERTED LIKE THIS APARENTSLY
-      entity.appendChild(messageXML);
+      documentText.appendChild(messageXML.documentElement);
 
 
       var serializer = new XMLSerializer();
       var xmlString = serializer.serializeToString(xmlDoc);
-      //var xmlString = serializer.serializeToString(messageXML);
       console.log(vkbeautify.xml(xmlString));
 
 		},
