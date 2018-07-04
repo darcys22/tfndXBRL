@@ -1527,6 +1527,7 @@ function main() {
   tableCreate();
   openvalidate();
   //validateXBRL()
+  lodgeXBRL();
 
 
   window.excluded = "N"

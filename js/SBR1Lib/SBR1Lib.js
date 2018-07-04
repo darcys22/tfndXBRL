@@ -77,7 +77,12 @@
       var xmlns = {
         xmlns: "http://www.w3.org/2000/xmlns/",
         Soap : "http://www.w3.org/2003/05/soap-envelope",
-        wsu: "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        wsu: "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd",
+        ns2:"http://sbr.gov.au/comn/core.02.data",
+        ns3:"http://sbr.gov.au/comn/sbdm.02.data",
+        ns4:"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd",
+        ns5:"http://sbr.gov.au/comn/lodge.02.service",
+        xmime:"http://www.w3.org/2005/05/xmlmime"
       }
       var soap = xmlDoc.createElementNS(xmlns.Soap,"Soap:Envelope");
       xmlDoc.appendChild(soap);
@@ -85,13 +90,64 @@
       soap.appendChild(soapHeader); 
       var soapBody= xmlDoc.createElement( "Soap:Body");
       soapBody.setAttributeNS(xmlns.xmlns, 'xmlns:wsu', xmlns.wsu);
+      soapBody.setAttribute("wsu:Id", "Body-shit"); 
       //var soap = xmlDoc.createElementNS(xmlns.Soap,"Soap:Envelope");
       soap.appendChild(soapBody); 
+      var lodgerequest= xmlDoc.createElement("ns5:RequestLodgeReport");
+      lodgerequest.setAttributeNS(xmlns.xmlns, 'xmlns:ns2', xmlns.ns2);
+      lodgerequest.setAttributeNS(xmlns.xmlns, 'xmlns:ns3', xmlns.ns3);
+      lodgerequest.setAttributeNS(xmlns.xmlns, 'xmlns:ns4', xmlns.ns4);
+      lodgerequest.setAttributeNS(xmlns.xmlns, 'xmlns:ns5', xmlns.ns5);
+      lodgerequest.setAttributeNS(xmlns.xmlns, 'xmlns:xmime', xmlns.xmime);
+      soapBody.appendChild(lodgerequest); 
+      var sbdm= xmlDoc.createElement("ns3:StandardBusinessDocumentMessage");
+      sbdm.setAttribute("ns4:Id", "SBDM_id"); 
+      lodgerequest.appendChild(sbdm); 
+      var sbdmheader= xmlDoc.createElement("ns3:StandardBusinessDocumentHeader");
+      sbdm.appendChild(sbdmheader); 
+      var messagetype= xmlDoc.createElement("ns3:Message.Type.Text");
+      messagetype.textContent = "tfnd.0003.2016.lodge.request";
+      sbdmheader.appendChild(messagetype); 
+      //Timestamps
+      var timestamps= xmlDoc.createElement("ns3:MessageTimestamps");
+      sbdmheader.appendChild(timestamps); 
+      var timestamp= xmlDoc.createElement("ns3:MessageTimestamp");
+      timestamps.appendChild(timestamp); 
+      var datetime= xmlDoc.createElement("ns3:Message.Timestamp.Generation.Datetime");
+      datetime.textContent = "DINNERTIME";
+      timestamp.appendChild(datetime); 
+      var datesource= xmlDoc.createElement("ns3:Message.Timestamp.GenerationSource.Code");
+      datesource.textContent = "BusinessEntity";
+      timestamp.appendChild(datesource); 
+      //Receiver
+      var receiver= xmlDoc.createElement("ns3:Receiver");
+      sbdmheader.appendChild(receiver); 
+      var identifier= xmlDoc.createElement("ns3:IdentificationDetails.IdentifierDesignation.Text");
+      identifier.textContent = "ato.gov.au";
+      receiver.appendChild(identifier); 
+      var identifiername= xmlDoc.createElement("ns3:IdentificationDetails.IdentifierName.Text");
+      identifiername.textContent = "AgencyInternetDomainName";
+      receiver.appendChild(identifiername); 
+      //SoftwareInformation
+      var software= xmlDoc.createElement("ns3:SoftwareInformation");
+      sbdmheader.appendChild(software); 
+      var orgname= xmlDoc.createElement("ns3:OrganisationNameDetails.OrganisationalName.Text");
+      orgname.textContent = "Darcy Financial";
+      software.appendChild(orgname); 
+      var product= xmlDoc.createElement("ns3:SoftwareInformation.ProductName.Text");
+      product.textContent = "Lodger";
+      software.appendChild(product); 
+      var version= xmlDoc.createElement("ns3:SoftwareInformation.ProductVersion.Text");
+      product.textContent = "0.0.1";
+      software.appendChild(product); 
+      //Business Documents
+
+      
+
       var documentText= xmlDoc.createElement("ns3:BusinessDocument.Instance.Text");
-      soapBody.appendChild(documentText); 
+      lodgerequest.appendChild(documentText); 
 
-
-      documentText.appendChild(messageXML.documentElement);
+      //documentText.appendChild(messageXML.documentElement);
 
 
       var serializer = new XMLSerializer();
