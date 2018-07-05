@@ -67,7 +67,7 @@
   
   SBR1Lodger.prototype = {
 
-    lodge: function (text) {
+    build: function (text) {
 
       var parser = new DOMParser();
       var messageXML = parser.parseFromString(text,"text/xml");
@@ -141,20 +141,71 @@
       product.textContent = "0.0.1";
       software.appendChild(product); 
       //Business Documents
+      var businessdocuments= xmlDoc.createElement("ns3:BusinessDocuments");
+      sbdmheader.appendChild(businessdocuments); 
+      var businessdocument= xmlDoc.createElement("ns3:BusinessDocument");
+      businessdocuments.appendChild(businessdocument); 
+      var sequencenumber= xmlDoc.createElement("ns3:BusinessDocument.Sequence.Number");
+      sequencenumber.textContent = "1";
+      businessdocument.appendChild(sequencenumber); 
+      var creationtime= xmlDoc.createElement("ns3:BusinessDocument.Creation.Datetime");
+      creationtime.textContent = "2017-07-17T05:34:10.263Z";
+      businessdocument.appendChild(creationtime); 
+      var validationresource= xmlDoc.createElement("ns3:BusinessDocument.ValidationUniformResourceIdentifier.Text");
+      validationresource.textContent = "http://sbr.gov.au/taxonomy/sbr_au_reports/ato/tfnd/tfnd_003/tfnd.003.lodge.request.02.00.report.xsd";
+      businessdocument.appendChild(validationresource); 
+      var ourid= xmlDoc.createElement("ns3:BusinessDocument.BusinessGeneratedIdentifier.Text");
+      ourid.textContent = "0120412041034";
+      businessdocument.appendChild(ourid); 
 
-      
+      //SBDM BODY
+      var sbdmbody= xmlDoc.createElement("ns3:StandardBusinessDocumentBody");
+      sbdm.appendChild(sbdmbody); 
+      var documentinstances= xmlDoc.createElement("ns3:StandardBusinessDocumentBody");
+      sbdmbody.appendChild(documentinstances); 
+      var documentinstance= xmlDoc.createElement("ns3:StandardBusinessDocumentBody");
+      documentinstances.appendChild(documentinstance); 
+      var bodysequence = xmlDoc.createElement("ns3:BusinessDocument.Sequence.Number");
+      bodysequence.textContent = "1";
+      documentinstance.appendChild(bodysequence); 
 
       var documentText= xmlDoc.createElement("ns3:BusinessDocument.Instance.Text");
-      lodgerequest.appendChild(documentText); 
+      documentinstance.appendChild(documentText); 
 
-      //documentText.appendChild(messageXML.documentElement);
+      documentText.appendChild(messageXML.documentElement);
 
 
       var serializer = new XMLSerializer();
       var xmlString = serializer.serializeToString(xmlDoc);
-      console.log(vkbeautify.xml(xmlString));
+      if(xmlString.indexOf('<?xml') !== 0)
+            xmlString = '<?xml version="1.0" encoding="UTF-8">\n' + xmlString;
+      //console.log(vkbeautify.xml(xmlString));
+
+      return xmlString
 
 		},
+
+    lodge: function (text) {
+      var xmldata = this.build(text);
+      jQuery.post({
+          url: 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service',
+          data: xmldata,
+          //async: false,
+  
+          //contentType: "text/plain",  // this is the content type sent from client to server
+          //dataType: "jsonp",
+          //jsonpCallback: '_testcb',
+          //cache: false,
+          //timeout: 5000,
+          success: function (data) {
+            console.log(data)
+                                  
+              },
+          error: function (jqXHR, textStatus, errorThrown) {
+                     alert('error ' + textStatus + " " + errorThrown);
+                }
+      }); 
+    },
 
     round: function(value, decimals) {
       return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
