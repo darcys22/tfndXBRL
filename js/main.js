@@ -1133,11 +1133,12 @@ function createXBRL() {
 }
 
 function lodgeXBRL() {
-  jQuery.get('/example.xml', function(data) {
-      var serializer = new XMLSerializer();
-      var xmlString = serializer.serializeToString(data);
-      sbr1lodger.lodge(xmlString);
-  });
+  //jQuery.get('/example.xml', function(data) {
+      //var serializer = new XMLSerializer();
+      //var xmlString = serializer.serializeToString(data);
+      //sbr1lodger.lodge(xmlString);
+  //});
+  sbr1lodger.lodge("Stuff");
 }
 
 function addSupplierDataRecords() {
