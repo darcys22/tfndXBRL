@@ -1133,7 +1133,7 @@ function createXBRL() {
 }
 
 function lodgeXBRL() {
-  jQuery.get('http://localhost:8000/example.xml', function(data) {
+  jQuery.get('/example.xml', function(data) {
       var serializer = new XMLSerializer();
       var xmlString = serializer.serializeToString(data);
       sbr1lodger.lodge(xmlString);
