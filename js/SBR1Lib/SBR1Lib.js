@@ -187,24 +187,34 @@
 
     lodge: function (text) {
       var xmldata = this.build(text);
-      jQuery.post({
-          url: 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service',
-          data: xmldata,
+      var url= 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service';
+
+      var request = new XMLHttpRequest();
+      request.open('POST', url);
+      request.onreadystatechange = function() {if (request.readyState==4) alert("It worked!");};
+      request.setRequestHeader("Content-type", "text/plain");
+      request.send(xmldata);
+
+      //jQuery.post({
+          //url: 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service',
+          //data: xmldata,
+          ////crossDomain:true,
+        
           //async: false,
   
           //contentType: "text/plain",  // this is the content type sent from client to server
-          //dataType: "jsonp",
-          //jsonpCallback: '_testcb',
-          //cache: false,
-          //timeout: 5000,
-          success: function (data) {
-            console.log(data)
+          ////dataType: "jsonp",
+          ////jsonpCallback: '_testcb',
+          ////cache: false,
+          ////timeout: 5000,
+          //success: function (data) {
+            //console.log(data)
                                   
-              },
-          error: function (jqXHR, textStatus, errorThrown) {
-                     alert('error ' + textStatus + " " + errorThrown);
-                }
-      }); 
+              //},
+          //error: function (jqXHR, textStatus, errorThrown) {
+                     //alert('error ' + textStatus + " " + errorThrown);
+                //}
+      //}); 
     },
 
     round: function(value, decimals) {
