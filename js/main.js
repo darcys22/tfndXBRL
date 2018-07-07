@@ -115,27 +115,32 @@ function toTitleCase(str)
 }
 function buildXBRL() {
   var xmlns = {
-      xbrli : "http://www.xbrl.org/2003/instance",
-      xbrldi:"http://xbrl.org/2006/xbrldi",
-      xbrldt:"http://xbrl.org/2005/xbrldt",
       address10202:"http://sbr.gov.au/comnmdle/comnmdle.addressdetails1.02.02.module",
-      tfnd : "http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report",
-      pyde0205 : "http://sbr.gov.au/icls/py/pyde.02.05.data",
-      pyde0200 : "http://sbr.gov.au/icls/py/pyde.02.00.data",
-      orgname10200:"http://sbr.gov.au/comnmdle/comnmdle.organisationname1.02.00.module",
       declaration10201:"http://sbr.gov.au/comnmdle/comnmdle.declaration1.02.01.module",
-      pyid0200 : "http://sbr.gov.au/icls/py/pyid/pyid.02.00.data",
       edte0200:"http://sbr.gov.au/icls/ed/edte/edte.02.00.data",
       edte0201:"http://sbr.gov.au/icls/ed/edte/edte.02.01.data",
+      edte0202:"http://sbr.gov.au/icls/ed/edte/edte.02.02.data",
+      edte0203:"http://sbr.gov.au/icls/ed/edte/edte.02.03.data",
       fax10200:"http://sbr.gov.au/comnmdle/comnmdle.electroniccontactfacsimile1.02.00.module",
+      gfati0200:"http://sbr.gov.au/icls/gfa/gfati/gfati.02.00.data",
+      link:"http://www.xbrl.org/2003/linkbase",
+      orgname10200:"http://sbr.gov.au/comnmdle/comnmdle.organisationname1.02.00.module",
       phone10200:"http://sbr.gov.au/comnmdle/comnmdle.electroniccontacttelephone1.02.00.module",
       prsnstrcnm20200:"http://sbr.gov.au/comnmdle/comnmdle.personstructuredname2.02.00.module",
       prsnunstrcnm10201:"http://sbr.gov.au/comnmdle/comnmdle.personunstructuredname1.02.01.module",
-      edte0202:"http://sbr.gov.au/icls/ed/edte/edte.02.02.data",
-      edte0203:"http://sbr.gov.au/icls/ed/edte/edte.02.03.data",
-      gfati0200:"http://sbr.gov.au/icls/gfa/gfati/gfati.02.00.data",
+      pyde0200 : "http://sbr.gov.au/icls/py/pyde.02.00.data",
+      pyde0201 : "http://sbr.gov.au/icls/py/pyde.02.01.data",
+      pyde0205 : "http://sbr.gov.au/icls/py/pyde.02.05.data",
+      pyde0208 : "http://sbr.gov.au/icls/py/pyde.02.08.data",
+      pyid0200 : "http://sbr.gov.au/icls/py/pyid/pyid.02.00.data",
       pylk0200:"http://sbr.gov.au/icls/py/pylk/pylk.02.00.data",
-      xmlns: "http://www.w3.org/2000/xmlns/"
+      tfnd : "http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report",
+      xlink:"http://www.w3.org/1999/xlink",
+      xmlns: "http://www.w3.org/2000/xmlns/",
+      xbrli : "http://www.xbrl.org/2003/instance",
+      xbrldi:"http://xbrl.org/2006/xbrldi",
+      xbrldt:"http://xbrl.org/2005/xbrldt",
+      xsi:"http://www.w3.org/2001/XMLSchema-instance",
   };
   var xmlDoc = document.implementation.createDocument('','',null);
   var xbrl = xmlDoc.createElementNS(xmlns.xbrli,"xbrli:xbrl");
@@ -150,15 +155,20 @@ function buildXBRL() {
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0203', xmlns.edte0203);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:fax10200', xmlns.fax10200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:gfati0200', xmlns.gfati0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:link', xmlns.link);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:orgname10200', xmlns.orgname10200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:phone10200', xmlns.phone10200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:prsnstrcnm20200', xmlns.prsnstrcnm20200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:prsnunstrcnm10201', xmlns.prsnunstrcnm10201);
-  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfnd', xmlns.tfnd);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0200', xmlns.pyde0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0201', xmlns.pyde0201);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0205', xmlns.pyde0205);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0208', xmlns.pyde0208);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyid0200', xmlns.pyid0200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pylk0200', xmlns.pylk0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfnd', xmlns.tfnd);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xlink', xmlns.xlink);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xsi', xmlns.xsi);
 
 
   // Schema
@@ -1133,29 +1143,14 @@ function createXBRL() {
 }
 
 function lodgeXBRL() {
-  var response;
-  jQuery.get('/example.xml', function(data) {
-      var serializer = new XMLSerializer();
-      var xmlString = serializer.serializeToString(data);
-      sbr1lodger.lodge(xmlString, function(resp){console.log(vkbeautify.xml(resp));});
-  });
+  //jQuery.get('/example.xml', function(data) {
+      //var serializer = new XMLSerializer();
+      //var xmlString = serializer.serializeToString(data);
+      //sbr1lodger.lodge(xmlString, function(resp){console.log(vkbeautify.xml(resp));});
+  //});
+  //sbr1lodger.lodge(window.xbrl, function(resp){console.log(vkbeautify.xml(resp));});
 }
 
-function addSupplierDataRecords() {
-}
-
-function addPayerIdentityDataRecord() {
-}
-
-
-function addSoftwareDataRecord() {
-}
-
-function addPaymentSummaryDataRecord(arrayPosition) {
-}
-
-function addFileTotalRecord() {
-}
 function catxAlphanumeric(length, text) {
   window.empdupe += padding_right(text, "x", length)
 }
@@ -1366,8 +1361,9 @@ function main() {
   window.payer = window.testPayer;
   tableCreate();
   openvalidate();
-  //validateXBRL()
-  lodgeXBRL();
+  validateXBRL()
+  //lodgeXBRL();
+  console.log(window.xbrl);
 
 
   window.excluded = "N"

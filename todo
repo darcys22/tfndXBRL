@@ -3,3 +3,6 @@ ABN for darcy financial
 
 http-server -p 3000 --cors
 
+https://codebeautify.org/xmlvalidator
+
+take the output xbrl and test in validator
