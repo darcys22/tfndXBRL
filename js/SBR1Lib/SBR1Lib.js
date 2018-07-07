@@ -114,7 +114,7 @@
       var timestamp= xmlDoc.createElement("ns3:MessageTimestamp");
       timestamps.appendChild(timestamp); 
       var datetime= xmlDoc.createElement("ns3:Message.Timestamp.Generation.Datetime");
-      datetime.textContent = "DINNERTIME";
+      datetime.textContent = this.timestamp();
       timestamp.appendChild(datetime); 
       var datesource= xmlDoc.createElement("ns3:Message.Timestamp.GenerationSource.Code");
       datesource.textContent = "BusinessEntity";
@@ -138,8 +138,8 @@
       product.textContent = "Lodger";
       software.appendChild(product); 
       var version= xmlDoc.createElement("ns3:SoftwareInformation.ProductVersion.Text");
-      product.textContent = "0.0.1";
-      software.appendChild(product); 
+      version.textContent = "0.0.1";
+      software.appendChild(version); 
       //Business Documents
       var businessdocuments= xmlDoc.createElement("ns3:BusinessDocuments");
       sbdmheader.appendChild(businessdocuments); 
@@ -149,10 +149,10 @@
       sequencenumber.textContent = "1";
       businessdocument.appendChild(sequencenumber); 
       var creationtime= xmlDoc.createElement("ns3:BusinessDocument.Creation.Datetime");
-      creationtime.textContent = "2017-07-17T05:34:10.263Z";
+      creationtime.textContent = this.timestamp();
       businessdocument.appendChild(creationtime); 
       var validationresource= xmlDoc.createElement("ns3:BusinessDocument.ValidationUniformResourceIdentifier.Text");
-      validationresource.textContent = "http://sbr.gov.au/taxonomy/sbr_au_reports/ato/tfnd/tfnd_003/tfnd.003.lodge.request.02.00.report.xsd";
+      validationresource.textContent = "http://sbr.gov.au/taxonomy/sbr_au_reports/ato/tfnd/tfnd_0003/tfnd.0003.lodge.request.02.00.report.xsd";
       businessdocument.appendChild(validationresource); 
       var ourid= xmlDoc.createElement("ns3:BusinessDocument.BusinessGeneratedIdentifier.Text");
       ourid.textContent = "0120412041034";
@@ -161,9 +161,9 @@
       //SBDM BODY
       var sbdmbody= xmlDoc.createElement("ns3:StandardBusinessDocumentBody");
       sbdm.appendChild(sbdmbody); 
-      var documentinstances= xmlDoc.createElement("ns3:StandardBusinessDocumentBody");
+      var documentinstances= xmlDoc.createElement("ns3:BusinessDocumentInstances");
       sbdmbody.appendChild(documentinstances); 
-      var documentinstance= xmlDoc.createElement("ns3:StandardBusinessDocumentBody");
+      var documentinstance= xmlDoc.createElement("ns3:BusinessDocumentInstance");
       documentinstances.appendChild(documentinstance); 
       var bodysequence = xmlDoc.createElement("ns3:BusinessDocument.Sequence.Number");
       bodysequence.textContent = "1";
@@ -178,43 +178,40 @@
       var serializer = new XMLSerializer();
       var xmlString = serializer.serializeToString(xmlDoc);
       if(xmlString.indexOf('<?xml') !== 0)
-            xmlString = '<?xml version="1.0" encoding="UTF-8">\n' + xmlString;
-      //console.log(vkbeautify.xml(xmlString));
+            xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n' + xmlString;
+      console.log(vkbeautify.xml(xmlString));
+      console.log("------------------------------");
+      console.log("------------------------------");
+      console.log("------------------------------");
 
       return xmlString
 
 		},
 
-    lodge: function (text) {
+    lodge: function (text, callback) {
       var xmldata = this.build(text);
       var url= 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service';
 
       var request = new XMLHttpRequest();
       request.open('POST', url);
-      request.onreadystatechange = function() {if (request.readyState==4) alert("It worked!");};
+      request.onreadystatechange = function() {if (request.readyState==4) callback(request.responseText); };
       request.setRequestHeader("Content-type", "text/plain");
       request.send(xmldata);
 
-      //jQuery.post({
-          //url: 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service',
-          //data: xmldata,
-          ////crossDomain:true,
-        
-          //async: false,
-  
-          //contentType: "text/plain",  // this is the content type sent from client to server
-          ////dataType: "jsonp",
-          ////jsonpCallback: '_testcb',
-          ////cache: false,
-          ////timeout: 5000,
-          //success: function (data) {
-            //console.log(data)
-                                  
-              //},
-          //error: function (jqXHR, textStatus, errorThrown) {
-                     //alert('error ' + textStatus + " " + errorThrown);
-                //}
-      //}); 
+    },
+
+    round: function(value, decimals) {
+      return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+		},
+
+    timestamp: function (time) {
+      var timestamp;
+      if(time) {
+        timestamp = moment(time).toISOString();
+      } else {
+        timestamp = moment().toISOString();
+      }
+      return timestamp;
     },
 
     round: function(value, decimals) {

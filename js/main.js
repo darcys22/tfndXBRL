@@ -1133,189 +1133,28 @@ function createXBRL() {
 }
 
 function lodgeXBRL() {
-  //jQuery.get('/example.xml', function(data) {
-      //var serializer = new XMLSerializer();
-      //var xmlString = serializer.serializeToString(data);
-      //sbr1lodger.lodge(xmlString);
-  //});
-  sbr1lodger.lodge("Stuff");
+  var response;
+  jQuery.get('/example.xml', function(data) {
+      var serializer = new XMLSerializer();
+      var xmlString = serializer.serializeToString(data);
+      sbr1lodger.lodge(xmlString, function(resp){console.log(vkbeautify.xml(resp));});
+  });
 }
 
 function addSupplierDataRecords() {
-  //record length and identifier
-  window.empdupe += "628IDENTREGISTER1"
-  //ABN
-  window.empdupe += window.payer.ABN
-  //Run Type P = Production, T = Test
-  window.empdupe += "P"
-  // ReportEndDate
-  window.empdupe += window.payer.endDate
-  //Data Type payg withholding summaries must be E, Type of report must be A, format of report must be P
-  window.empdupe += "EAP"
-  //Report specification number
-  window.empdupe += "FEMPA012.0"
-  //Filler
-  catAlphanumeric(578, " ");
-  window.empdupe += "\r\n";
-  //record length and identifier
-  window.empdupe += "628IDENTREGISTER2"
-  //SupplierName
-  catAlphanumeric(200, window.payer.name);
-  //Supplier Contact Name
-  catAlphanumeric(38, window.payer.contactName);
-  //Supplier Number
-  catAlphanumeric(15, window.payer.contactNumber);
-  //Filler
-  catAlphanumeric(15 + 16 + 327, " ");
-  window.empdupe += "\r\n";
-  //record length and identifier
-  window.empdupe += "628IDENTREGISTER3"
-  //Supplier street address
-  catAlphanumeric(38,window.payer.address);
-  catAlphanumeric(38,window.payer.address2);
-  //Supplier suburb
-  catAlphanumeric(27, window.payer.suburb);
-  //Supplier state
-  catAlphanumeric(3, window.payer.state);
-  //Supplier postcode
-  catNumeric(4, window.payer.postcode);
-  //Supplier country (blank for Aus) 
-  catAlphanumeric(20, "  ");
-  //Supplier postal add 
-  catAlphanumeric(38 + 38 + 27 + 3, "  ");
-  catNumeric(4,0);
-  catAlphanumeric(20, "  ");
-  //Supplier email
-  catAlphanumeric(76, "  ");
-  //Filler
-  catAlphanumeric(275, "  ");
-  window.empdupe += "\r\n";
-
 }
 
 function addPayerIdentityDataRecord() {
-  //record length and identifier
-  window.empdupe += "628IDENTITY"
-  //ABN
-  window.empdupe += window.payer.ABN
-  //ABN Branch Number
-  catNumeric(3,window.payer.ABNBranch);
-  //Financial Year
-  catNumeric(4,window.payer.financialYear);
-  //Payer Name
-  catAlphanumeric(200, window.payer.name);
-  //Payer Trading Name
-  catAlphanumeric(200, window.payer.tradingName);
-  //Payer street address
-  catAlphanumeric(38, window.payer.address);
-  catAlphanumeric(38, window.payer.address2);
-  //Payer suburb
-  catAlphanumeric(27, window.payer.suburb);
-  //Payer state
-  catAlphanumeric(3, window.payer.state);
-  //Payer postcode
-  catNumeric(4, window.payer.postcode);
-  //Payer country (blank for Aus) 
-  catAlphanumeric(20, "  ");
-  //Payer Contact Name
-  catAlphanumeric(38, window.payer.contactName);
-  //Supplier Number
-  catAlphanumeric(15, window.payer.contactNumber);
-  //Filler
-  catAlphanumeric(15 + 1, "  ");
-  window.empdupe += "\r\n";
 }
 
 
 function addSoftwareDataRecord() {
-  //record length and identifier
-  window.empdupe += "628SOFTWARE"
-  //Software product Type
-  catAlphanumeric(80, "COMMERCIAL Sean Darcy DarcyFinancial www.empdupe.com.au EmpdupeCreator 1");
-  //ECI tested
-  window.empdupe += "Y"
-  //Filler
-  catAlphanumeric(536, "  ");
-  window.empdupe += "\r\n";
 }
 
 function addPaymentSummaryDataRecord(arrayPosition) {
-  //record length and identifier and Income type S for salary
-  window.empdupe += "628DINBS"
-  //TFN
-  catNumeric(9,window.employees[arrayPosition].TFN);
-  //DOB Year
-  catDate(window.employees[arrayPosition].DOB);
-  //Employee Surname
-  catAlphanumeric(30, window.employees[arrayPosition].surname);
-  //Employee Name
-  catAlphanumeric(15, window.employees[arrayPosition].name);
-  //Employee Second Name
-  catAlphanumeric(15, window.employees[arrayPosition].secondName);
-  //Employee street address
-  catAlphanumeric(38, window.employees[arrayPosition].address);
-  catAlphanumeric(38, window.employees[arrayPosition].address2);
-  //Employee suburb
-  catAlphanumeric(27, window.employees[arrayPosition].suburb);
-  //Employee state
-  catAlphanumeric(3, window.employees[arrayPosition].state);
-  //Employee postcode
-  catNumeric(4, window.employees[arrayPosition].postcode);
-  //Payer country (blank for Aus) 
-  catAlphanumeric(20, "  ");
-  //Period Start
-  catDate(window.employees[arrayPosition].periodStart);
-  //Period End
-  catDate(window.employees[arrayPosition].periodEnd);
-  //Tax Withheld
-  catNumeric(8, window.employees[arrayPosition].taxWithheld);
-  //Gross Payments
-  catNumeric(8, window.employees[arrayPosition].grossPayments);
-  //Total Allowances
-  catNumeric(8, window.employees[arrayPosition].allowances);
-  //Lumpsum A
-  catNumeric(8, window.employees[arrayPosition].lumpsumA);
-  //Lumpsum B
-  catNumeric(8, window.employees[arrayPosition].lumpsumB);
-  //Lumpsum D
-  catNumeric(8, window.employees[arrayPosition].lumpsumD);
-  //Lumpsum E
-  catNumeric(8, window.employees[arrayPosition].lumpsumE);
-  //Community Development Employment Project
-  catNumeric(8, 0);
-  //Filler
-  catNumeric(8, 0);
-  //Reportable Fringe benefit
-  catNumeric(8, window.employees[arrayPosition].fb);
-  //Amendment Indicator
-  catAlphanumeric(1, window.employees[arrayPosition].amendment);
-  //Reportable Employer Superannuation Contributions
-  catNumeric(8, window.employees[arrayPosition].superSGC);
-  //Lump Sum A type
-  catAlphanumeric(1, window.employees[arrayPosition].lumpsumAtype);
-  //Workplace Giving
-  catNumeric(8, window.employees[arrayPosition].workplaceGiving);
-  //Union Fees
-  catNumeric(8, window.employees[arrayPosition].union);
-  //Exempt foreign employment income
-  catNumeric(8, window.employees[arrayPosition].foreign);
-  //Annuity Return of Capital
-  catNumeric(8, window.employees[arrayPosition].annuity);
-  //FBT Exemption
-  catAlphanumeric(1, window.employees[arrayPosition].fbtExempt);
-  //Filler
-  catAlphanumeric(274, "  ");
-  window.empdupe += "\r\n";
 }
 
 function addFileTotalRecord() {
-  //record length and identifier
-  window.empdupe += "628FILE-TOTAL"
-  //Annuity Return of Capital
-  catNumeric(8, window.employees.length + 6);
-  //Filler
-  catAlphanumeric(607, "  ");
-  window.empdupe += "\r\n";
 }
 function catxAlphanumeric(length, text) {
   window.empdupe += padding_right(text, "x", length)
