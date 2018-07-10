@@ -133,6 +133,8 @@ function buildXBRL() {
       pyde0205 : "http://sbr.gov.au/icls/py/pyde.02.05.data",
       pyde0208 : "http://sbr.gov.au/icls/py/pyde.02.08.data",
       pyid0200 : "http://sbr.gov.au/icls/py/pyid/pyid.02.00.data",
+      pyin0200:"http://sbr.gov.au/icls/py/pyin/pyin.02.00.data",
+      pyin0203:"http://sbr.gov.au/icls/py/pyin/pyin.02.03.data",
       pylk0200:"http://sbr.gov.au/icls/py/pylk/pylk.02.00.data",
       tfnd : "http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report",
       xlink:"http://www.w3.org/1999/xlink",
@@ -165,6 +167,8 @@ function buildXBRL() {
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0205', xmlns.pyde0205);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0208', xmlns.pyde0208);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyid0200', xmlns.pyid0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyin0200', xmlns.pyin0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyin0203', xmlns.pyin0203);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pylk0200', xmlns.pylk0200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfnd', xmlns.tfnd);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xlink', xmlns.xlink);
