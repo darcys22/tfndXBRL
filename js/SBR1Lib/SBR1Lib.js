@@ -189,15 +189,118 @@
 		},
 
     lodge: function (text, callback) {
-      var xmldata = this.build(text);
-      var url= 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service';
+      //var xmldata = this.build(text);
+      //var url= 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service';
 
-      var request = new XMLHttpRequest();
-      request.open('POST', url);
-      request.onreadystatechange = function() {if (request.readyState==4) callback(request.responseText); };
-      request.setRequestHeader("Content-type", "text/plain");
-      request.send(xmldata);
+      //var request = new XMLHttpRequest();
+      //request.open('POST', url);
+      //request.onreadystatechange = function() {if (request.readyState==4) callback(request.responseText); };
+      //request.setRequestHeader("Content-type", "text/plain");
+      //request.send(xmldata);
+      this.buildsts()
 
+    },
+
+    buildsts: function() {
+      var xmlDoc = document.implementation.createDocument('','',null);
+      
+      var xmlns = {
+        xmlns: "http://www.w3.org/2000/xmlns/",
+        Soap : "http://www.w3.org/2003/05/soap-envelope",
+        wsu: "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd",
+        wsa:"http://www.w3.org/2005/08/addressing",
+        wsse:"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
+        ds:"http://www.w3.org/2000/09/xmldsig#",
+        wst:"http://docs.oasis-open.org/ws-sx/ws-trust/200512",
+        wsp:"http://schemas.xmlsoap.org/ws/2004/09/policy",
+        i:"http://schemas.xmlsoap.org/ws/2005/05/identity",
+      }
+      var soap = xmlDoc.createElementNS(xmlns.Soap,"Soap:Envelope");
+      xmlDoc.appendChild(soap);
+      //Header
+      var soapHeader= xmlDoc.createElement("Soap:Header");
+      soapHeader.setAttributeNS(xmlns.xmlns, 'xmlns:wsa', xmlns.wsa);
+      soap.appendChild(soapHeader); 
+      var wssesecurity= xmlDoc.createElement("wsse:Security");
+      wssesecurity.setAttributeNS(xmlns.xmlns, 'xmlns:wsse', xmlns.wsse);
+      wssesecurity.setAttribute("Soap:mustUnderstand", "true"); 
+      soapHeader.appendChild(wssesecurity); 
+      //-Timestamp
+      var timestamp= xmlDoc.createElement("wsu:Timestamp");
+      timestamp.setAttributeNS(xmlns.xmlns, 'xmlns:wsu', xmlns.wsu);
+      timestamp.setAttribute("wsu:Id", "Timestamp-19714461"); 
+      wssesecurity.appendChild(timestamp); 
+      var created= xmlDoc.createElement("wsu:Created");
+      created.textContent = this.timestamp();
+      timestamp.appendChild(created); 
+      var expires= xmlDoc.createElement("wsu:Expires");
+      expires.textContent = this.timestamp(moment().add(5, 'hours'));
+      timestamp.appendChild(expires); 
+      //-BinarySecurityToken
+      var securitytoken= xmlDoc.createElement("wsse:BinarySecurityToken");
+      securitytoken.setAttributeNS(xmlns.xmlns, 'xmlns:wsu', xmlns.wsu);
+      securitytoken.setAttribute("EncodingType", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"); 
+      securitytoken.setAttribute("ValueType", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3"); 
+      securitytoken.setAttribute("wsu:Id", "CertId-11658721"); 
+      securitytoken.textContent = "xxxxxx";
+      wssesecurity.appendChild(securitytoken); 
+      //-Signature
+      var signature= xmlDoc.createElement("ds:Signature");
+      signature.setAttributeNS(xmlns.xmlns, 'xmlns:ds', xmlns.ds);
+      signature.setAttribute("Id", "Signature-620055"); 
+      wssesecurity.appendChild(signature); 
+      var signedinfo= xmlDoc.createElement("ds:Signature");
+      signature.appendChild(signedinfo); 
+      var canonical= xmlDoc.createElement("ds:CanonicalizationMethod");
+      canonical.setAttribute("Algorithm", "http://www.w3.org/2001/10/xml-exc-c14n#"); 
+      signedinfo.appendChild(canonical); 
+      var method= xmlDoc.createElement("ds:SignatureMethod");
+      method.setAttribute("Algorithm", "http://www.w3.org/2000/09/xmldsig#rsa-sha1"); 
+      signedinfo.appendChild(method); 
+      var timestampsign= xmlDoc.createElement("ds:Reference");
+      timestampsign.setAttribute("URI", "#Timestamp-19714461"); 
+      signedinfo.appendChild(timestampsign); 
+      var timestamptransforms= xmlDoc.createElement("ds:Transforms");
+      timestampsign.appendChild(timestamptransforms); 
+      var timestamptransform= xmlDoc.createElement("ds:Transform");
+      timestamptransform.setAttribute("Algorithm", "http://www.w3.org/2001/10/xml-exc-c14n#"); 
+      timestamptransforms.appendChild(timestamptransform); 
+      var timestampdigestmethod= xmlDoc.createElement("ds:DigestMethod");
+      timestampdigestmethod.setAttribute("Algorithm", "http://www.w3.org/2000/09/xmldsig#sha1"); 
+      timestampsign.appendChild(timestampdigestmethod); 
+      var timestampdigest= xmlDoc.createElement("ds:DigestValue");
+      timestampdigest.textContent = "Something"; 
+      timestampsign.appendChild(timestampdigest); 
+
+
+      var appliestosign= xmlDoc.createElement("ds:Reference");
+      appliestosign.setAttribute("URI", "#id-3125250"); 
+      signedinfo.appendChild(appliestosign); 
+      var appliestotransforms= xmlDoc.createElement("ds:Transforms");
+      appliestosign.appendChild(appliestotransforms); 
+      var appliestotransform= xmlDoc.createElement("ds:Transform");
+      appliestotransform.setAttribute("Algorithm", "http://www.w3.org/2001/10/xml-exc-c14n#"); 
+      appliestotransforms.appendChild(appliestotransform); 
+      var appliestodigestmethod= xmlDoc.createElement("ds:DigestMethod");
+      appliestodigestmethod.setAttribute("Algorithm", "http://www.w3.org/2000/09/xmldsig#sha1"); 
+      appliestosign.appendChild(appliestodigestmethod); 
+      var appliestodigest= xmlDoc.createElement("ds:DigestValue");
+      appliestodigest.textContent = "Something"; 
+      appliestosign.appendChild(appliestodigest); 
+
+      //Body
+      var soapBody= xmlDoc.createElement( "Soap:Body");
+      soapBody.setAttributeNS(xmlns.xmlns, 'xmlns:wsu', xmlns.wsu);
+      soapBody.setAttribute("wsu:Id", "Body-a3b32ad9-a38c-477f-9b87-6ad4565bc178"); 
+      soap.appendChild(soapBody); 
+
+
+      //Add Declaration and Prettify
+      var serializer = new XMLSerializer();
+      var xmlString = serializer.serializeToString(xmlDoc);
+      if(xmlString.indexOf('<?xml') !== 0)
+            xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n' + xmlString;
+      console.log(vkbeautify.xml(xmlString));
     },
 
     round: function(value, decimals) {
