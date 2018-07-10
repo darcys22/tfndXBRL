@@ -1,0 +1,79 @@
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
+   <soapenv:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+      <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" soapenv:mustUnderstand="true">
+         <wsu:Timestamp xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="Timestamp-19714461">
+            <wsu:Created>2009-10-12T04:02:23.890Z</wsu:Created>
+            <wsu:Expires>2009-10-12T04:07:23.890Z</wsu:Expires>
+         </wsu:Timestamp>
+         <wsse:BinarySecurityToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Bina ry" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" wsu:Id="CertId-11658721">xxxxxxxxx</wsse:BinarySecurityToken>
+         <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="Signat ure-620055">
+            <ds:SignedInfo>
+               <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+               <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+               <ds:Reference URI="#Timestamp-19714461">
+                  <ds:Transforms>
+                     <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                  </ds:Transforms>
+                  <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                  <ds:DigestValue>RUqAWdHk+v4Xkx+9Sw0HLVKijpE=</ds:DigestValue>
+               </ds:Reference>
+               <ds:Reference URI="#id-3125250">
+                  <ds:Transforms>
+                     <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+                  </ds:Transforms>
+                  <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                  <ds:DigestValue>8M8SCNohyZHQEhzru8hIZzIudu8=</ds:DigestValue>
+               </ds:Reference>
+            </ds:SignedInfo>
+            <ds:SignatureValue>ZHSrVAqDjlZzLdFaz9gEnXFuvpf/q3rQ9XWI3Bu9ZtVkuubhvXXnQo1zeIyiY84uiS/J5lLMpqTNdQv5JRWZk6Y6XzrEQgfofp5VSmDeyNgVXJtm2FFePnYq7OTZerA3c7jhQO9xc0MpNLfs8NX7zCnIUNbhgeKR6LFZG8EW1hU=</ds:SignatureValue>
+            <ds:KeyInfo Id="KeyId-15834478">
+               <wsse:SecurityTokenReference xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="STRId-7789321">
+                  <wsse:Reference URI="#CertId-11658721" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3" />
+               </wsse:SecurityTokenReference>
+            </ds:KeyInfo>
+         </ds:Signature>
+      </wsse:Security>
+      <wsa:To xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="id-3125250">https://thirdparty.authentication.business.gov.au/R3.0/vanguard/S007v1.1/service.svc</wsa:To>
+      <wsa:MessageID>urn:uuid:CC8BEAE32759F DD5821255320143481</wsa:MessageID>
+      <wsa:Action>http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue</wsa:Action>
+   </soapenv:Header>
+   <soapenv:Body>
+      <wst:RequestSecurityToken xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+         <RequestType xmlns="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</RequestType>
+         <wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+            <EndpointReference xmlns="http://www.w3.org/2005/08/addressing">
+               <Address>https://test.sbr.gov.au/services</Address>
+            </EndpointReference>
+         </wsp:AppliesTo>
+         <TokenType xmlns="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</TokenType>
+         <Claims xmlns="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:i="http://schemas.xmlsoap.org/ws/2005/05/identity" Dialect="http://schemas.xmlsoap.org/ws/2005/05/identity">
+            <i:ClaimType Optional="false" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/abn" />
+            <i:ClaimType Optional="false" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/commonname" />
+            <i:ClaimType Optional="false" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/cl aims/credentialtype" />
+            <i:ClaimType Optional="false" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/samlsubjectid" />
+            <i:ClaimType Optional="false" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/fingerprint" />
+            <i:ClaimType Optional="true" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/sbr_personid" />
+            <i:ClaimType Optional="true" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/givennames" />
+            <i:ClaimType Optional="true" Uri="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname" />
+            <i:ClaimType Optional="true" Uri="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress" />
+            <i:ClaimType Optional="true" Uri="http://vanguard.ebusiness.gov.au/2008/06/iden tity/claims/credentialadministrator" />
+            <i:ClaimType Optional="true" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/stalecrlminutes" />
+            <i:ClaimType Optional="true" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/subjectdn" />
+            <i:ClaimType Optional="true" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/issuerdn" />
+            <i:ClaimType Optional="true" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/notafterdate" />
+            <i:ClaimType Optional="true" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/certificateserialnumber" />
+            <i:ClaimType Optional="true" Uri="http://vanguard.ebusiness.gov.au/2008/06/identity/claims/previoussubject" />
+         </Claims>
+         <Lifetime xmlns="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+            <wsu:Created xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2009-10-12T04:02:22.984Z</wsu:Created>
+            <wsu:Expires xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2009-10-12T04:32:22.984Z</wsu:Expires>
+         </Lifetime>
+         <KeyType xmlns="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey</KeyType>
+         <KeySize xmlns="http://docs.oasis-open.org/ws-sx/ws-trust/200512">512</KeySize>
+      </wst:RequestSecurityToken>
+   </soapenv:Body>
+</soapenv:Envelope>
+
