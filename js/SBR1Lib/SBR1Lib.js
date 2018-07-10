@@ -87,10 +87,10 @@
       var soap = xmlDoc.createElementNS(xmlns.Soap,"Soap:Envelope");
       xmlDoc.appendChild(soap);
       var soapHeader= xmlDoc.createElement("Soap:Header");
-      soap.appendChild(soapHeader); 
+      //soap.appendChild(soapHeader); 
       var soapBody= xmlDoc.createElement( "Soap:Body");
       soapBody.setAttributeNS(xmlns.xmlns, 'xmlns:wsu', xmlns.wsu);
-      soapBody.setAttribute("wsu:Id", "Body-shit"); 
+      soapBody.setAttribute("wsu:Id", "Body-a3b32ad9-a38c-477f-9b87-6ad4565bc178"); 
       //var soap = xmlDoc.createElementNS(xmlns.Soap,"Soap:Envelope");
       soap.appendChild(soapBody); 
       var lodgerequest= xmlDoc.createElement("ns5:RequestLodgeReport");

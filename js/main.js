@@ -128,10 +128,10 @@ function buildXBRL() {
       phone10200:"http://sbr.gov.au/comnmdle/comnmdle.electroniccontacttelephone1.02.00.module",
       prsnstrcnm20200:"http://sbr.gov.au/comnmdle/comnmdle.personstructuredname2.02.00.module",
       prsnunstrcnm10201:"http://sbr.gov.au/comnmdle/comnmdle.personunstructuredname1.02.01.module",
-      pyde0200 : "http://sbr.gov.au/icls/py/pyde.02.00.data",
-      pyde0201 : "http://sbr.gov.au/icls/py/pyde.02.01.data",
-      pyde0205 : "http://sbr.gov.au/icls/py/pyde.02.05.data",
-      pyde0208 : "http://sbr.gov.au/icls/py/pyde.02.08.data",
+      pyde0200 : "http://sbr.gov.au/icls/py/pyde/pyde.02.00.data",
+      pyde0201 : "http://sbr.gov.au/icls/py/pyde/pyde.02.01.data",
+      pyde0205 : "http://sbr.gov.au/icls/py/pyde/pyde.02.05.data",
+      pyde0208 : "http://sbr.gov.au/icls/py/pyde/pyde.02.08.data",
       pyid0200 : "http://sbr.gov.au/icls/py/pyid/pyid.02.00.data",
       pyin0200:"http://sbr.gov.au/icls/py/pyin/pyin.02.00.data",
       pyin0203:"http://sbr.gov.au/icls/py/pyin/pyin.02.03.data",
@@ -194,7 +194,8 @@ function buildXBRL() {
   payee.appendChild(payeetfn); 
   var payeedob = xmlDoc.createElement("pyde0200:PersonDemographicDetails.Birth.Date")
   payeedob.setAttribute("contextRef", "RP"); 
-  payeedob.textContent = window.employees[0].DOB;
+  //payeedob.textContent = window.employees[0].DOB;
+  payeedob.textContent = "1989-07-05"
   payee.appendChild(payeedob); 
   var payeeresidency = xmlDoc.createElement("pyde0205:Residency.TaxPurposesPersonStatus.Indicator")
   payeeresidency.setAttribute("contextRef", "RP"); 
@@ -1152,7 +1153,7 @@ function lodgeXBRL() {
       //var xmlString = serializer.serializeToString(data);
       //sbr1lodger.lodge(xmlString, function(resp){console.log(vkbeautify.xml(resp));});
   //});
-  //sbr1lodger.lodge(window.xbrl, function(resp){console.log(vkbeautify.xml(resp));});
+  sbr1lodger.lodge(window.xbrl, function(resp){console.log(vkbeautify.xml(resp));});
 }
 
 function catxAlphanumeric(length, text) {
@@ -1366,8 +1367,8 @@ function main() {
   tableCreate();
   openvalidate();
   validateXBRL()
-  //lodgeXBRL();
-  console.log(window.xbrl);
+  lodgeXBRL();
+  //console.log(window.xbrl);
 
 
   window.excluded = "N"
