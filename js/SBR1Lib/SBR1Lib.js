@@ -189,15 +189,15 @@
 		},
 
     lodge: function (text, callback) {
-      //var xmldata = this.build(text);
-      //var url= 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service';
+      var xmldata = this.build(text);
+      var url= 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service';
 
-      //var request = new XMLHttpRequest();
-      //request.open('POST', url);
-      //request.onreadystatechange = function() {if (request.readyState==4) callback(request.responseText); };
-      //request.setRequestHeader("Content-type", "text/plain");
-      //request.send(xmldata);
-      this.buildsts()
+      var request = new XMLHttpRequest();
+      request.open('POST', url);
+      request.onreadystatechange = function() {if (request.readyState==4) callback(request.responseText); };
+      request.setRequestHeader("Content-type", "text/plain");
+      request.send(xmldata);
+      //this.buildsts()
 
     },
 

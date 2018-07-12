@@ -117,13 +117,18 @@ function buildXBRL() {
   var xmlns = {
       address10202:"http://sbr.gov.au/comnmdle/comnmdle.addressdetails1.02.02.module",
       declaration10201:"http://sbr.gov.au/comnmdle/comnmdle.declaration1.02.01.module",
+      dtyp0200:"http://sbr.gov.au/fdtn/sbr.02.00.dtyp",
       edte0200:"http://sbr.gov.au/icls/ed/edte/edte.02.00.data",
       edte0201:"http://sbr.gov.au/icls/ed/edte/edte.02.01.data",
       edte0202:"http://sbr.gov.au/icls/ed/edte/edte.02.02.data",
       edte0203:"http://sbr.gov.au/icls/ed/edte/edte.02.03.data",
+      email10200:"http://sbr.gov.au/comnmdle/comnmdle.electroniccontactelectronicmail1.02.00.module",
       fax10200:"http://sbr.gov.au/comnmdle/comnmdle.electroniccontactfacsimile1.02.00.module",
       gfati0200:"http://sbr.gov.au/icls/gfa/gfati/gfati.02.00.data",
+      iso4217:"http://www.xbrl.org/2003/iso4217",
       link:"http://www.xbrl.org/2003/linkbase",
+      lrla0200:"http://sbr.gov.au/icls/lr/lrla/lrla.02.00.data",
+      OpenCloseBalance0200:"http://sbr.gov.au/dims/OpenCloseBalance.02.00.dims",
       orgname10200:"http://sbr.gov.au/comnmdle/comnmdle.organisationname1.02.00.module",
       phone10200:"http://sbr.gov.au/comnmdle/comnmdle.electroniccontacttelephone1.02.00.module",
       prsnstrcnm20200:"http://sbr.gov.au/comnmdle/comnmdle.personstructuredname2.02.00.module",
@@ -132,11 +137,18 @@ function buildXBRL() {
       pyde0201 : "http://sbr.gov.au/icls/py/pyde/pyde.02.01.data",
       pyde0205 : "http://sbr.gov.au/icls/py/pyde/pyde.02.05.data",
       pyde0208 : "http://sbr.gov.au/icls/py/pyde/pyde.02.08.data",
+      pyde0225 : "http://sbr.gov.au/icls/py/pyde/pyde.02.25.data",
       pyid0200 : "http://sbr.gov.au/icls/py/pyid/pyid.02.00.data",
+      pyid0205 : "http://sbr.gov.au/icls/py/pyid/pyid.02.05.data",
       pyin0200:"http://sbr.gov.au/icls/py/pyin/pyin.02.00.data",
       pyin0203:"http://sbr.gov.au/icls/py/pyin/pyin.02.03.data",
       pylk0200:"http://sbr.gov.au/icls/py/pylk/pylk.02.00.data",
+      ref:"http://www.xbrl.org/2006/ref",
+      RprtPyType0212:"http://sbr.gov.au/dims/RprtPyType.02.12.dims",
+      tech0102:"http://sbr.gov.au/fdtn/sbr.01.02.tech",
       tfnd : "http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report",
+      tfndlodgereq:"http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.lodge.request.02.00.report",
+      tfndprv:"http://sbr.gov.au/rprt/ato/tfnd/tfnd.0003.private.02.00.module",
       xlink:"http://www.w3.org/1999/xlink",
       xmlns: "http://www.w3.org/2000/xmlns/",
       xbrli : "http://www.xbrl.org/2003/instance",
@@ -151,13 +163,18 @@ function buildXBRL() {
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xbrldt', xmlns.xbrldt);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:address10202', xmlns.address10202);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:declaration10201', xmlns.declaration10201);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:dtyp0200', xmlns.dtyp0200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0200', xmlns.edte0200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0201', xmlns.edte0201);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0202', xmlns.edte0202);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:edte0203', xmlns.edte0203);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:email10200', xmlns.email10200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:fax10200', xmlns.fax10200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:gfati0200', xmlns.gfati0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:iso4217', xmlns.iso4217);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:link', xmlns.link);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:lrla0200', xmlns.lrla0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:OpenCloseBalance0200', xmlns.OpenCloseBalance0200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:orgname10200', xmlns.orgname10200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:phone10200', xmlns.phone10200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:prsnstrcnm20200', xmlns.prsnstrcnm20200);
@@ -166,11 +183,18 @@ function buildXBRL() {
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0201', xmlns.pyde0201);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0205', xmlns.pyde0205);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0208', xmlns.pyde0208);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyde0225', xmlns.pyde0225);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyid0200', xmlns.pyid0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyid0205', xmlns.pyid0205);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyin0200', xmlns.pyin0200);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pyin0203', xmlns.pyin0203);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:pylk0200', xmlns.pylk0200);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:ref', xmlns.ref);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:RprtPyType0212', xmlns.RprtPyType0212);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tech0102', xmlns.tech0102);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfnd', xmlns.tfnd);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfndlodgereq', xmlns.tfndlodgereq);
+  xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:tfndprv', xmlns.tfndprv);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xlink', xmlns.xlink);
   xbrl.setAttributeNS(xmlns.xmlns, 'xmlns:xsi', xmlns.xsi);
 
@@ -231,7 +255,7 @@ function buildXBRL() {
   payee.appendChild(invalidrelative); 
   var help = xmlDoc.createElement("edte0200:StudentLoan.HigherEducationLoanProgramme.Indicator");
   help.setAttribute("contextRef", "RP"); 
-  help.textContent = "true";
+  //help.textContent = "true";
   var tradesupport = xmlDoc.createElement("edte0201:StudentLoan.TradeSupport.Indicator");
   tradesupport.setAttribute("contextRef", "RP"); 
   tradesupport.textContent = "true";
@@ -579,11 +603,11 @@ function ContextMaker(id,abn) {
   var segment= xmlDoc.createElement("xbrli:segment");
   entity.appendChild(segment); 
   var explicitMember= xmlDoc.createElement("xbrldi:explicitMember");
-  explicitMember.setAttribute("dimension", "RprtPyType.02.12:ReportPartyTypeDimension"); 
+  explicitMember.setAttribute("dimension", "RprtPyType0212:ReportPartyTypeDimension"); 
   if (id=="RP") {
-    explicitMember.textContent = "RprtPyType.02.12:ReportingParty"; 
+    explicitMember.textContent = "RprtPyType0212:ReportingParty"; 
   } else if (id=="INT") {
-    explicitMember.textContent = "RprtPyType.02.12:Intermediary"; 
+    explicitMember.textContent = "RprtPyType0212:Intermediary"; 
   }
   segment.appendChild(explicitMember); 
   var period= xmlDoc.createElement("xbrli:period");
