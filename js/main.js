@@ -1,4 +1,4 @@
-var sbr1lodger = new SBR1Lodger();
+var sbrlodger = new SBRLodger();
 
 window.testEmployee = [
     {
@@ -1175,9 +1175,9 @@ function lodgeXBRL() {
   //jQuery.get('/example.xml', function(data) {
       //var serializer = new XMLSerializer();
       //var xmlString = serializer.serializeToString(data);
-      //sbr1lodger.lodge(xmlString, function(resp){console.log(vkbeautify.xml(resp));});
+      //sbrlodger.lodge(xmlString, function(resp){console.log(vkbeautify.xml(resp));});
   //});
-  sbr1lodger.lodge(window.xbrl, function(resp){console.log(vkbeautify.xml(resp));});
+  sbrlodger.lodge(window.xbrl, function(resp){console.log(vkbeautify.xml(resp));});
 }
 
 function catxAlphanumeric(length, text) {

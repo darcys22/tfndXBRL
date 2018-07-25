@@ -1,5 +1,5 @@
 /*
-* SBR1JS 0.1.1 - Australian SBR1Lodger
+* SBRJS 0.1.1 - Australian SBRLodger
 * Copyright (c) 2017 Sean Darcy (Sean@DarcyFinancial.com)
 * Licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) license.
 *
@@ -19,10 +19,10 @@
   if (typeof module !== 'undefined' && module.exports) { module.exports = definition(); }
   else if (typeof define === 'function' && define.amd) { define(definition); }
   else { context[name] = definition(); }
-})('SBR1Lodger', this, function () {
+})('SBRLodger', this, function () {
   'use strict';
 
-  var SBR1Lodger = function (options) {
+  var SBRLodger = function (options) {
     var nativeForEach, nativeMap;
     nativeForEach = Array.prototype.forEach;
     nativeMap = Array.prototype.map;
@@ -65,7 +65,7 @@
     }
   };
   
-  SBR1Lodger.prototype = {
+  SBRLodger.prototype = {
 
     build: function (text) {
 
@@ -189,15 +189,15 @@
 		},
 
     lodge: function (text, callback) {
-      var xmldata = this.build(text);
-      var url= 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service';
+      //var xmldata = this.build(text);
+      //var url= 'https://test.sbr.gov.au/services/nowssecurity/lodge.02.service';
 
-      var request = new XMLHttpRequest();
-      request.open('POST', url);
-      request.onreadystatechange = function() {if (request.readyState==4) callback(request.responseText); };
-      request.setRequestHeader("Content-type", "text/plain");
-      request.send(xmldata);
-      //this.buildsts()
+      //var request = new XMLHttpRequest();
+      //request.open('POST', url);
+      //request.onreadystatechange = function() {if (request.readyState==4) callback(request.responseText); };
+      //request.setRequestHeader("Content-type", "text/plain");
+      //request.send(xmldata);
+      this.buildsts()
 
     },
 
@@ -288,11 +288,29 @@
       appliestodigest.textContent = "Something"; 
       appliestosign.appendChild(appliestodigest); 
 
+      //WSA 
+      var wsato= xmlDoc.createElement("wsa:To");
+      wsato.setAttributeNS(xmlns.xmlns, 'xmlns:wsu', xmlns.wsu);
+      wsato.setAttribute("wsu:Id", "id-3125250"); 
+      wsato.textContent = "https://thirdparty.authentication.business.gov.au/R3.0/vanguard/S007v1.1/service.svc"; 
+      soapHeader.appendChild(wsato); 
+      var wsamessageid= xmlDoc.createElement("wsa:MessageID");
+      wsamessageid.textContent = "urn:uuid:CC8BEAE3279FDD5821255320143481"; 
+      soapHeader.appendChild(wsamessageid); 
+      var wsaaction= xmlDoc.createElement("wsa:Action");
+      wsaaction.textContent = "http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue"; 
+      soapHeader.appendChild(wsaaction); 
+
+
       //Body
       var soapBody= xmlDoc.createElement( "Soap:Body");
-      soapBody.setAttributeNS(xmlns.xmlns, 'xmlns:wsu', xmlns.wsu);
-      soapBody.setAttribute("wsu:Id", "Body-a3b32ad9-a38c-477f-9b87-6ad4565bc178"); 
       soap.appendChild(soapBody); 
+      var requesttoken= xmlDoc.createElement("wst:RequestSecurityToken");
+      requesttoken.setAttributeNS(xmlns.xmlns, 'xmlns:wst', xmlns.wst);
+      soapBody.appendChild(requesttoken); 
+      var requesttype= xmlDoc.createElement("wst:RequestType");
+      requesttype.textContent = "http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue";
+      requesttoken.appendChild(requesttype); 
 
 
       //Add Declaration and Prettify
@@ -325,5 +343,5 @@
   };
 
 
-  return SBR1Lodger;
+  return SBRLodger;
 });
