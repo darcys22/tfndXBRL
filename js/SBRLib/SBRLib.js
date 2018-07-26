@@ -311,6 +311,57 @@
       var requesttype= xmlDoc.createElement("wst:RequestType");
       requesttype.textContent = "http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue";
       requesttoken.appendChild(requesttype); 
+      var appliesto= xmlDoc.createElement("wst:AppliesTo");
+      appliesto.setAttributeNS(xmlns.xmlns, 'xmlns:wsp', xmlns.wsp);
+      requesttoken.appendChild(appliesto); 
+      var endpointReference= xmlDoc.createElementNS("http://www.w3.org/2005/08/addressing","EndpointReference");
+      appliesto.appendChild(endpointReference); 
+      var address= xmlDoc.createElementNS("http://www.w3.org/2005/08/addressing","Address");
+      address.textContent = "https://test.sbr.gov.au/services";
+      endpointReference.appendChild(address); 
+      var tokentype= xmlDoc.createElement("wst:TokenType");
+      tokentype.textContent = "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0";
+      requesttoken.appendChild(tokentype); 
+
+      //Claims
+      var claims= xmlDoc.createElement("wst:Claims");
+      claims.setAttributeNS(xmlns.xmlns, 'xmlns:i', xmlns.i);
+      claims.setAttribute("Dialect", "http://schemas.xmlsoap.org/ws/2005/05/identity"); 
+      requesttoken.appendChild(claims); 
+      claims.appendChild(this.claimMaker("abn", "false"));
+      claims.appendChild(this.claimMaker("commonname", "false"));
+      claims.appendChild(this.claimMaker("credentialtype", "false"));
+      claims.appendChild(this.claimMaker("samlsubjectid", "false"));
+      claims.appendChild(this.claimMaker("fingerprint", "false"));
+      claims.appendChild(this.claimMaker("sbr_personid", "true"));
+      claims.appendChild(this.claimMaker("givennames", "true"));
+      claims.appendChild(this.claimMaker("surname", "true", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/"));
+      claims.appendChild(this.claimMaker("emailaddress", "true", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/"));
+      claims.appendChild(this.claimMaker("credentialadministrator", "true"));
+      claims.appendChild(this.claimMaker("stalecrlminutes", "true"));
+      claims.appendChild(this.claimMaker("subjectdn", "true"));
+      claims.appendChild(this.claimMaker("issuerdn", "true"));
+      claims.appendChild(this.claimMaker("notafterdate", "true"));
+      claims.appendChild(this.claimMaker("certificateserialnumber", "true"));
+      claims.appendChild(this.claimMaker("previoussubject", "true"));
+
+
+      var lifetime= xmlDoc.createElement("wst:Lifetime");
+      lifetime.setAttributeNS(xmlns.xmlns, 'xmlns:wsu', xmlns.wsu);
+      requesttoken.appendChild(lifetime); 
+      var created= xmlDoc.createElement("wsu:Created");
+      created.textContent = this.timestamp();
+      lifetime.appendChild(created); 
+      var expires= xmlDoc.createElement("wsu:Expires");
+      expires.textContent = this.timestamp(moment().add(30, 'minutes'));
+      lifetime.appendChild(expires); 
+
+      var keytype= xmlDoc.createElement("wst:KeyType");
+      keytype.textContent = "http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey";
+      requesttoken.appendChild(keytype); 
+      var keysize= xmlDoc.createElement("wst:KeyType");
+      keysize.textContent = "512";
+      requesttoken.appendChild(keysize); 
 
 
       //Add Declaration and Prettify
@@ -319,6 +370,16 @@
       if(xmlString.indexOf('<?xml') !== 0)
             xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n' + xmlString;
       console.log(vkbeautify.xml(xmlString));
+    },
+
+    claimMaker: function(x, optional,source = "http://vanguard.ebusiness.gov.au/2008/06/identity/claims/" ) {
+      var xmlDoc = document.implementation.createDocument('','',null);
+      var claim= xmlDoc.createElement("i:ClaimType");
+      claim.setAttribute("Optional",optional); 
+      var claimstr = source + x;
+      claim.setAttribute("Uri", claimstr); 
+
+      return claim;
     },
 
     round: function(value, decimals) {
